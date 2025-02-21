@@ -1,0 +1,206 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f4f8f5, #e8f5e9);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: #155d44;
+}
+
+/* Navbar Styling */
+.custom-navbar {
+    background: linear-gradient(135deg, #166534, #145a32);
+    padding: 15px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-brand {
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 700;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+    color: #c8e6c9;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.1rem;
+    color: #eaf4ea;
+    margin-right: 15px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #d4edda;
+    transform: scale(1.05);
+}
+
+/* Search Box */
+.search-box {
+    border-radius: 30px;
+    padding: 8px 15px;
+    border: none;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.search-box:focus {
+    outline: none;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Login Button */
+.btn-login {
+    background: linear-gradient(135deg, #c8e6c9, #a3d9a5);
+    color: #155d44;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #a3d9a5, #82c784);
+    color: #0c3b26;
+    transform: scale(1.05);
+}
+
+/* Category Title - Enhanced Design */
+.category-title {
+    text-align: center;
+    font-weight: 700;
+    color: #166534;
+    margin: 40px 0;
+    font-size: 2.2rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 50%;
+    height: 4px;
+    background: #145a32;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.category-title:hover::after {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 50%;
+        opacity: 1;
+    }
+}
+
+/* Cards - Aesthetic Green Design */
+.card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+    height: 100%;
+    min-height: 420px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+}
+
+/* Card Hover Effect */
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Image Styling */
+.card img {
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* Centered Card Content */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #145a32;
+    margin-bottom: 12px;
+}
+
+/* Green Buttons */
+.btn-success {
+    background: linear-gradient(135deg, #1fab54, #146d38);
+    border: none;
+    font-weight: 600;
+    padding: 12px 18px;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+    color: white;
+}
+
+/* Button Hover Effect */
+.btn-success:hover {
+    background: linear-gradient(135deg, #146d38, #0e4c27);
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    background: #198754;
+    padding: 15px;
+    color: white;
+    text-align: center;
+    margin-top: auto;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-box {
+        width: 200px;
+    }
+    .category-title {
+        font-size: 1.8rem;
+    }
+    .card img {
+        height: 220px;
+    }
+}

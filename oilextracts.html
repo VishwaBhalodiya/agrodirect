@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Extracts - AgroConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .navbar {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-card {
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+            height: 100%;
+            padding: 10px;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-img {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #198754;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+        .product-price {
+            color: #e68900;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .product-description {
+            font-size: 0.9rem;
+            color: #6c757d;
+            min-height: 50px;
+            margin-bottom: 10px;
+        }
+        .btn-custom {
+            background-color: #198754;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            transition: all 0.3s ease-in-out;
+            margin-bottom: 5px;
+        }
+        .btn-custom:hover {
+            background-color: #155d44;
+        }
+        footer {
+            background: #198754;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+        .quantity {
+            width: 60px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .review-section {
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .stars {
+            color: #ffc107;
+        }
+        .btn-sm {
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" href="#">AgroConnect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopnow.html">Shop Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#review">Review Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
+                </ul>
+                <a href="login.html" class="btn btn-custom ms-3" id="loginButton">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container my-5">
+        <h2 class="text-center mb-4">Oil Extracts</h2>
+        <a href="home.html" class="back-btn">Back to Home</a>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+            <!-- Oil Extract Cards -->
+            <script>
+                const oils = [
+                    { name: "Coconut Oil", img: "coconut", price: 350, desc: "Cold-pressed and 100% pure coconut oil.", rating: 4.8, reviews: ["Great for skin.", "Excellent for cooking.", "Works wonders for hair."] },
+                    { name: "Olive Oil", img: "olive", price: 500, desc: "Extra virgin olive oil with multiple health benefits.", rating: 4.7, reviews: ["Perfect for salads.", "High quality.", "Rich in antioxidants."] },
+                    { name: "Castor Oil", img: "castor", price: 250, desc: "A multipurpose oil for hair and skin care.", rating: 4.5, reviews: ["Great for hair growth.", "Effective for skin care.", "Helps with joint pain."] },
+                    { name: "Almond Oil", img: "almond", price: 400, desc: "Rich in Vitamin E and great for skin and hair.", rating: 4.6, reviews: ["Leaves skin smooth.", "Perfect for massages.", "Great for moisturizing."] },
+                    { name: "Sesame Oil", img: "sesame", price: 300, desc: "Traditional oil with high nutritional value.", rating: 4.4, reviews: ["Good for cooking.", "Perfect for stir-fries.", "Nutrient-packed."] },
+                    { name: "Sunflower Oil", img: "sunflower", price: 200, desc: "A healthy oil for cooking and frying.", rating: 4.6, reviews: ["Light and healthy.", "Perfect for frying.", "Affordable and versatile."] },
+                    { name: "Jojoba Oil", img: "jojoba", price: 600, desc: "Ideal for skincare and hair care.", rating: 4.7, reviews: ["Great for dry skin.", "Helps with acne.", "Nourishes the scalp."] },
+                    { name: "Tea Tree Oil", img: "tea-tree", price: 450, desc: "Known for its antiseptic properties.", rating: 4.8, reviews: ["Great for acne treatment.", "Effective for minor cuts.", "Great for treating dandruff."] },
+                    { name: "Grapeseed Oil", img: "grapeseed", price: 350, desc: "Light and versatile oil for cooking and skincare.", rating: 4.6, reviews: ["Healthy and light.", "Perfect for cooking.", "Good for skin." ] },
+                    { name: "Hemp Oil", img: "hemp", price: 700, desc: "A nutrient-rich oil for health and beauty.", rating: 4.5, reviews: ["Great for joint pain.", "Rich in omega-3.", "Perfect for smoothies."] }
+                ];
+
+                document.write(
+                    oils.map(oil => ` 
+                        <div class="col">
+                            <div class="card product-card">
+                                <img src="https://source.unsplash.com/400x300/?${oil.img}" class="card-img-top product-img" alt="${oil.name}">
+                                <div class="card-body text-center">
+                                    <h5 class="product-title">${oil.name}</h5>
+                                    <p class="product-description">${oil.desc}</p>
+                                    <p class="product-price">₹${oil.price} / 500 ml</p>
+                                    <div class="rating">
+                                        ${[...Array(5)].map((_, i) => i < oil.rating ? `<span class="stars">★</span>` : `<span>★</span>`).join('')}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label">Quantity</label>
+                                        <input type="number" id="quantity" class="form-control quantity" min="0" value="0">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="unit" class="form-label">Unit</label>
+                                        <select class="form-select" id="unit">
+                                            <option value="500">500 ml</option>
+                                            <option value="1000">1 Litre</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="total" class="form-label">Total Price</label>
+                                        <input type="text" class="form-control" id="total" disabled>
+                                    </div>
+                                    <button class="btn-custom">Add to Cart</button>
+                                    <a href="${oil.name.toLowerCase().replace(/\s+/g, '')}.html" class="btn btn-sm btn-outline-success">View</a>
+                                    <div class="collapse review-section" id="${oil.name.replace(/\s+/g, '')}Details">
+                                        <h6>Customer Reviews:</h6>
+                                        <ul>
+                                            ${oil.reviews.map(review => `<li>${review}</li>`).join('')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')
+                );
+            </script>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 AgroConnect. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quantityInputs = document.querySelectorAll('#quantity');
+            const unitInputs = document.querySelectorAll('#unit');
+            const totalPriceInputs = document.querySelectorAll('#total');
+            
+            quantityInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    const quantity = parseFloat(input.value);
+                    const unit = unitInputs[index].value;
+                    let totalPrice = 0;
+                    
+                    if (unit === '500') {
+                        totalPrice = quantity * oils[index].price;
+                    } else if (unit === '1000') {
+                        totalPrice = quantity * oils[index].price * 2;  // Double the price for 1 liter
+                    }
+                    totalPriceInputs[index].value = `₹${totalPrice.toFixed(2)}`;
+                });
+            });
+
+            document.body.style.opacity = "1";
+        });
+    </script>
+</body>
+</html>
