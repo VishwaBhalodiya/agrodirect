@@ -1,0 +1,125 @@
+/* Light Green Background */
+body {
+    background: #eaf9e1;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Flying Vegetables, Fruits, and Grains */
+.flying-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.flying {
+    position: absolute;
+    width: 80px;
+    opacity: 0.7;
+    animation: float infinite alternate;
+}
+
+/* Generate Random Animation Delay and Positions */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-30px) rotate(10deg); }
+}
+
+/* Container Box */
+.container {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+/* Sliding Effect */
+.slider {
+    display: flex;
+    width: 200%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.form {
+    width: 50%;
+    padding: 30px;
+}
+
+/* Clickable Icons for Switching Forms */
+.icon-switch {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 24px;
+    color: #2E7D32;
+    cursor: pointer;
+}
+
+.signup-icon:hover, .login-icon:hover {
+    color: #1B5E20;
+    transform: scale(1.2);
+    transition: 0.3s;
+}
+
+/* Input Fields */
+.input-group {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.input-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #81C784;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+}
+
+.primary-btn {
+    background: #43A047;
+    color: white;
+    transition: 0.3s;
+}
+
+.primary-btn:hover {
+    background: #2E7D32;
+}
+
+/* Links */
+p a {
+    color: #1E88E5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
