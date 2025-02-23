@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planting Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1B5E20;
+            --secondary: #2E7D32;
+            --accent: #81C784;
+            --light: #E8F5E9;
+        }
+
+        nav {
+            background-color: var(--primary);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/1200/800') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .equipment {
+            background-color: var(--light);
+        }
+
+        .techniques {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .techniques h2 {
+            color: white;
+        }
+
+        .techniques .card {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .maintenance {
+            background-color: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/home page/home.html">Home</a></li>
+            <li><a href="#basics">Planting Basics</a></li>
+            <li><a href="#seasonal">Seasonal Guide</a></li>
+            <li><a href="#tips">Tips & Tricks</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div>
+            <h1>Garden & Grow</h1>
+            <p>Your complete guide to successful planting and gardening. Learn everything from basics to advanced techniques.</p>
+        </div>
+    </section>
+
+    <section id="basics" class="section">
+        <h2>Planting Basics</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Soil Preparation">
+                <div class="card-content">
+                    <h3>Soil Preparation</h3>
+                    <p>Good soil is the foundation of a healthy garden. Learn about soil types, pH levels, and how to prepare your garden bed for optimal growth.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Watering Guide">
+                <div class="card-content">
+                    <h3>Watering Guide</h3>
+                    <p>Understanding when and how much to water is crucial. Discover proper watering techniques for different plants and seasons.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Plant Selection">
+                <div class="card-content">
+                    <h3>Plant Selection</h3>
+                    <p>Choose the right plants for your climate and space. Learn about different plant families and their specific needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="seasonal" class="section">
+        <h2>Seasonal Planting Guide</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Spring Planting">
+                <div class="card-content">
+                    <h3>Spring</h3>
+                    <p>Spring is the perfect time for starting most vegetables and annual flowers. Learn what to plant and when to ensure a bountiful harvest.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Summer Planting">
+                <div class="card-content">
+                    <h3>Summer</h3>
+                    <p>Maintain your garden during the hot months. Discover heat-resistant plants and summer gardening techniques.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Fall Planting">
+                <div class="card-content">
+                    <h3>Fall</h3>
+                    <p>Prepare your garden for cooler weather. Learn about fall crops and how to protect your plants from frost.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tips" class="section tips">
+        <h2>Tips & Tricks</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Pest Control">
+                <div class="card-content">
+                    <h3>Natural Pest Control</h3>
+                    <p>Keep your garden healthy without harmful chemicals. Learn about companion planting and organic pest control methods.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Composting">
+                <div class="card-content">
+                    <h3>Composting</h3>
+                    <p>Turn kitchen waste into garden gold. Learn how to create and maintain a healthy compost pile.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Tools">
+                <div class="card-content">
+                    <h3>Essential Tools</h3>
+                    <p>Get familiar with the must-have gardening tools and how to properly maintain them for years of use.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

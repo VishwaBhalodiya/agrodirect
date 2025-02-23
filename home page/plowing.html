@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plowing Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1B5E20;
+            --secondary: #2E7D32;
+            --accent: #81C784;
+            --light: #E8F5E9;
+        }
+
+        nav {
+            background-color: var(--primary);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/1200/800') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .equipment {
+            background-color: var(--light);
+        }
+
+        .techniques {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .techniques h2 {
+            color: white;
+        }
+
+        .techniques .card {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .maintenance {
+            background-color: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="../home page/home.html">Home</a></li>
+            <li><a href="#equipment">Equipment</a></li>
+            <li><a href="#techniques">Techniques</a></li>
+            <li><a href="#timing">Timing & Tips</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div>
+            <h1>Plowing Guide</h1>
+            <p>Master the fundamentals of proper plowing techniques. Learn about equipment selection, timing, and methods to prepare your soil for optimal crop growth.</p>
+        </div>
+    </section>
+
+    <section id="equipment" class="section equipment">
+        <h2>Plowing Equipment</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Moldboard Plow">
+                <div class="card-content">
+                    <h3>Moldboard Plows</h3>
+                    <p>Traditional plows that completely invert the soil. Perfect for heavy residue incorporation and preparing clean seedbeds. Learn about different moldboard types and their specific uses.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Chisel Plow">
+                <div class="card-content">
+                    <h3>Chisel Plows</h3>
+                    <p>Ideal for conservation tillage, these plows break up soil without inverting it. Excellent for maintaining surface residue and preventing erosion while improving drainage.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Disc Plow">
+                <div class="card-content">
+                    <h3>Disc Plows</h3>
+                    <p>Perfect for tough or sticky soils. These plows cut and mix residue effectively while creating less compaction than traditional moldboards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="techniques" class="section techniques">
+        <h2>Plowing Techniques</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Contour Plowing">
+                <div class="card-content">
+                    <h3>Contour Plowing</h3>
+                    <p>Follow the natural contours of the land to prevent erosion and conserve water. Learn proper techniques for hillside plowing and creating effective water breaks.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Deep Plowing">
+                <div class="card-content">
+                    <h3>Deep Plowing</h3>
+                    <p>Breaking up hardpan and improving drainage. Understand when deep plowing is necessary and how to avoid damaging soil structure.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Conservation Plowing">
+                <div class="card-content">
+                    <h3>Conservation Plowing</h3>
+                    <p>Minimize soil disruption while maintaining crop residue. Perfect for preventing erosion and maintaining soil organic matter.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timing" class="section tips">
+        <h2>Timing & Tips</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Soil Conditions">
+                <div class="card-content">
+                    <h3>Soil Conditions</h3>
+                    <p>Learn to assess soil moisture and temperature for optimal plowing. Understand how different soil types affect timing and technique selection.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Seasonal Timing">
+                <div class="card-content">
+                    <h3>Seasonal Timing</h3>
+                    <p>Determine the best time to plow based on your climate and crops. Includes guidance for fall plowing, spring preparation, and special situations.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Maintenance">
+                <div class="card-content">
+                    <h3>Equipment Maintenance</h3>
+                    <p>Keep your plowing equipment in top condition. Learn about proper adjustment, wear patterns, and maintenance schedules for different plow types.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -12,431 +12,28 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-      }
-      .hero-slider {
-        position: relative;
-      }
-      .hero-slider .carousel-item {
-        position: relative;
-      }
-      .hero-slider img {
-        width: 100%;
-        height: 500px;
-        object-fit: cover;
-      }
-      .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.3); /* Dark transparent overlay */
-        backdrop-filter: blur(1px); /* Blur effect */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .slogan {
-        color: white;
-        font-size: 2rem;
-        font-weight: bold;
-        text-align: center;
-        font-family: "Poppins", sans-serif;
-      }
-      @media (max-width: 768px) {
-        .slogan {
-          font-size: 1.5rem;
-        }
-      }
-      .card-link {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-      }
-      .card-link:hover {
-        text-decoration: none;
-        color: inherit;
-      }
-      .services {
-        background-color: #f8f9fa;
-      }
-      .service-icon {
-        transition: transform 0.3s ease;
-      }
-      .card:hover .service-icon {
-        transform: scale(1.1);
-      }
-      .card {
-        transition: transform 0.3s ease;
-        cursor: pointer;
-      }
-      .card:hover {
-        transform: translateY(-5px);
-      }
-      .why-choose-us {
-    background-color: #146B3A;
-    padding: 80px 0;
-    overflow: hidden;
-}
-
-.why-choose-content {
-    color: white;
-}
-
-.farmer-image {
-    width: 100%;
-    max-width: 595px;
-    height: 85vh;
-    border-radius: 10px;
-    opacity: 0;
-    transform: translateX(-100px);
-    transition: all 1s ease;
-}
-
-.content-right {
-    opacity: 0;
-    transform: translateX(100px);
-    transition: all 1s ease;
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
-}
-
-.feature-icon {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
-}
-
-.feature-text {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-/* Animation classes */
-.animate-in {
-    opacity: 1;
-    transform: translate(0);
-}
-
-.delay-1 { transition-delay: 0.2s; }
-.delay-2 { transition-delay: 0.4s; }
-.delay-3 { transition-delay: 0.6s; }
-
-/* Newsletter Section */
-.newsletter-section {
-    background: linear-gradient(rgba(20, 107, 58, 0.9), rgba(20, 107, 58, 0.9)), 
-                url('/api/placeholder/1920/600') center/cover;
-    padding: 80px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.newsletter-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #7fba43, #3c8b50, #7fba43);
-}
-
-.newsletter-content {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-    color: white;
-    position: relative;
-    z-index: 1;
-}
-
-.newsletter-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
-.newsletter-description {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.newsletter-form-container {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    margin-top: 2rem;
-}
-
-.newsletter-form {
-    display: flex;
-    gap: 15px;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.newsletter-input {
-    flex: 1;
-    padding: 15px 20px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.9);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.newsletter-input:focus {
-    outline: none;
-    border-color: #7fba43;
-    box-shadow: 0 0 15px rgba(127, 186, 67, 0.3);
-}
-
-.newsletter-button {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 30px;
-    background: #7fba43;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.newsletter-button:hover {
-    background: #669c35;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 768px) {
-    .newsletter-title {
-        font-size: 2rem;
-    }
-    
-    .newsletter-form {
-        flex-direction: column;
-    }
-    
-    .newsletter-button {
-        width: 100%;
-    }
-}
-
-/* Footer Styles */
-.organic-footer {
-    background-color: #1b4d3e;
-    color: #ffffff;
-    padding: 70px 0 0;
-    position: relative;
-}
-
-.footer-logo {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #7fba43;
-    margin-bottom: 1.5rem;
-    display: inline-block;
-}
-
-.footer-about p {
-    color: #c5e1c8;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-}
-
-.footer-title {
-    color: #7fba43;
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-.footer-title::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 50px;
-    height: 3px;
-    background: #7fba43;
-    border-radius: 2px;
-}
-
-.footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.footer-links li {
-    margin-bottom: 15px;
-}
-
-.footer-links a {
-    color: #c5e1c8;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-}
-
-.footer-links a i {
-    margin-right: 10px;
-    font-size: 14px;
-    color: #7fba43;
-}
-
-.footer-links a:hover {
-    color: #7fba43;
-    transform: translateX(8px);
-}
-
-.product-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.product-tag {
-    background: rgba(127, 186, 67, 0.1);
-    padding: 8px 15px;
-    border-radius: 20px;
-    color: #c5e1c8;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-.product-tag:hover {
-    background: #7fba43;
-    color: white;
-    transform: translateY(-3px);
-}
-
-.footer-contact i {
-    color: #7fba43;
-    margin-right: 10px;
-}
-
-.social-links {
-    margin-top: 20px;
-}
-
-.social-links a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: rgba(127, 186, 67, 0.1);
-    border-radius: 50%;
-    color: #7fba43;
-    margin-right: 10px;
-    transition: all 0.3s ease;
-}
-
-.social-links a:hover {
-    background: #7fba43;
-    color: white;
-    transform: translateY(-3px);
-}
-
-.footer-bottom {
-    background: rgba(0, 0, 0, 0.2);
-    padding: 20px 0;
-    margin-top: 50px;
-}
-
-.footer-bottom p {
-    margin: 0;
-    color: #c5e1c8;
-}
-
-.footer-bottom .heart {
-    color: #7fba43;
-    margin: 0 5px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .newsletter-title {
-        font-size: 2rem;
-    }
-
-    .newsletter-form {
-        flex-direction: column;
-    }
-
-    .newsletter-button {
-        width: 100%;
-    }
-
-    .footer-column {
-        margin-bottom: 40px;
-    }
-    
-    .footer-bottom {
-        text-align: center;
-    }
-    
-    .footer-bottom .text-end {
-        text-align: center !important;
-        margin-top: 10px;
-    }
-}
-    </style>
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-      <div class="container">
-        <a class="navbar-brand" href="#">AgroDirect</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="home.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="shopnow.html">Shop Now</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="review.html">Review Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="cart.html">Cart</a>
-            </li>
-          </ul>
-          <a href="login.html" class="btn btn-warning ms-3">Login</a>
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">🌿 AgroConnect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/home page/home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../shopnow.html">Shop Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/review.html">Review Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart.html">Cart</a></li>
+                </ul>
+                <!-- <input type="text" class="search-box" placeholder="Search Products..."> -->
+                <a href="../index.html" class="btn btn-login ms-3" id="loginButton">Login</a>
+            </div>
         </div>
-      </div>
     </nav>
-
     <!-- Slider -->
     <div
       id="carouselExample"
@@ -446,7 +43,7 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img
-            src="login signup/home1.jpg"
+            src="../home page/homeslider/pexels-dodogr8-916406.jpg"
             class="d-block w-100"
             alt="Slide 1"
           />
@@ -458,7 +55,7 @@
         </div>
         <div class="carousel-item">
           <img
-            src="login signup/home 2.jpg"
+            src="../home page/homeslider/pexels-lukas-hartmann-304281-1276235.jpg"
             class="d-block w-100"
             alt="Slide 2"
           />
@@ -468,7 +65,7 @@
         </div>
         <div class="carousel-item">
           <img
-            src="login signup/home 3.png"
+            src="../home page/homeslider/pexels-nc-farm-bureau-mark-2889442.jpg"
             class="d-block w-100"
             alt="Slide 3"
           />
@@ -478,7 +75,7 @@
         </div>
         <div class="carousel-item">
           <img
-            src="login signup/home 4.jpg"
+            src="../home page/home1.jpg"
             class="d-block w-100"
             alt="Slide 4"
           />
@@ -522,7 +119,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                 <!-- Service 1 -->
                 <div class="col">
-                    <a href="shopnow.html" class="card-link">
+                    <a href="../home page/planting.html" class="card-link">
                         <div class="card h-100 border-0 text-center">
                             <div class="card-body">
                                 <div class="service-icon mb-3">
@@ -541,7 +138,7 @@
     
                 <!-- Service 2 -->
                 <div class="col">
-                    <a href="shopnow.html" class="card-link">
+                    <a href="../home page/mulching.html" class="card-link">
                         <div class="card h-100 border-0 text-center">
                             <div class="card-body">
                                 <div class="service-icon mb-3">
@@ -560,7 +157,7 @@
     
                 <!-- Service 3 -->
                 <div class="col">
-                    <a href="shopnow.html" class="card-link">
+                    <a href="../home page/plowing.html" class="card-link">
                         <div class="card h-100 border-0 text-center">
                             <div class="card-body">
                                 <div class="service-icon mb-3">
@@ -579,7 +176,7 @@
     
                 <!-- Service 4 -->
                 <div class="col">
-                    <a href="shopnow.html" class="card-link">
+                    <a href="../home page/mowing.html" class="card-link">
                         <div class="card h-100 border-0 text-center">
                             <div class="card-body">
                                 <div class="service-icon mb-3">
@@ -611,16 +208,16 @@
                 <div class="col-lg-6 content-right">
                     <div class="why-choose-content">
                         <h3 class="text-white-50 mb-2">WHY CHOOSE US</h3>
-                        <h2 class="display-5 mb-4">More than 50 year experience in agriculture industry</h2>
-                        <p class="mb-4">Reprehenderit, odio laboriosam? Blanditiis quae ullam quasi illum minima nostrum perspiciatis error consequatur sit nulla.</p>
+                        <h2 class="display-5 mb-4">Over 50 Years of Experience in the Agriculture Industry</h2>
+                        <p class="mb-4">With decades of expertise, we are committed to providing the best agricultural solutions, ensuring quality and sustainability in every step.</p>
                         
                         <div class="feature-item delay-1">
                             <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
                             </svg>
                             <div>
-                                <h4 class="mb-1">Plants needs rain</h4>
-                                <p class="feature-text mb-0">Lorem ipsum dolor sit amet.</p>
+                                <h4 class="mb-1">Essential Rain for Crops</h4>
+                                <p class="feature-text mb-0">We recognize the importance of natural rainfall for healthy plant growth.</p>
                             </div>
                         </div>
     
@@ -629,8 +226,8 @@
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                             </svg>
                             <div>
-                                <h4 class="mb-1">Love organic foods</h4>
-                                <p class="feature-text mb-0">Lorem ipsum dolor sit amet.</p>
+                                <h4 class="mb-1">Passion for Organic Farming</h4>
+                                <p class="feature-text mb-0">We believe in organic farming for healthier and more nutritious food.</p>
                             </div>
                         </div>
     
@@ -640,8 +237,8 @@
                                 <polyline points="9 22 9 12 15 12 15 22"/>
                             </svg>
                             <div>
-                                <h4 class="mb-1">Sell vegies</h4>
-                                <p class="feature-text mb-0">Lorem ipsum dolor sit amet.</p>
+                                <h4 class="mb-1">Fresh & Local Produce</h4>
+                                <p class="feature-text mb-0">We provide fresh, high-quality vegetables straight from the farm.</p>
                             </div>
                         </div>
                     </div>
@@ -649,20 +246,51 @@
             </div>
         </div>
     </section>
+    
     <section class="newsletter-section">
-    <div class="container">
-        <div class="newsletter-content">
+        <div class="container">
+          <div class="newsletter-content">
             <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
             <p>Stay updated with our latest organic products, farming tips, and exclusive offers!</p>
             <div class="newsletter-form-container">
-                <form class="newsletter-form">
-                    <input type="email" class="newsletter-input" placeholder="Enter your email address">
-                    <button type="submit" class="newsletter-button">Subscribe</button>
-                </form>
+              <form id="newsletter-form">
+                <input type="email" id="email-input" class="newsletter-input" placeholder="Enter your email address" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+              </form>
+              <p id="message"></p>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
+      
+      <script>
+      document.getElementById("newsletter-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
+        
+        const emailInput = document.getElementById("email-input");
+        const message = document.getElementById("message");
+        const email = emailInput.value;
+      
+        try {
+          const response = await fetch("http://localhost:5000/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+          });
+      
+          const data = await response.json();
+          message.textContent = data.message;
+          message.style.color = "green";
+          
+          // Clear the input field after successful subscription
+          emailInput.value = "";
+      
+        } catch (error) {
+          message.textContent = "Subscription failed. Please try again.";
+          message.style.color = "red";
+        }
+      });
+      </script>         
 
 <!-- Footer -->
 <footer class="organic-footer">
@@ -774,6 +402,7 @@
             }
         });
         </script>
+        <link rel="stylesheet" href="home.css">
 </body>
 </html>
 

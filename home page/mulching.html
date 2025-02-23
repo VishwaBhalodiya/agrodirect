@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mulching Guide</title>
+    <style>
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1B5E20;
+            --secondary: #2E7D32;
+            --accent: #81C784;
+            --light: #E8F5E9;
+        }
+
+        nav {
+            background-color: var(--primary);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/1200/800') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .equipment {
+            background-color: var(--light);
+        }
+
+        .techniques {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .techniques h2 {
+            color: white;
+        }
+
+        .techniques .card {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .maintenance {
+            background-color: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="../home page/home.html">Home</a></li>
+            <li><a href="#types">Mulch Types</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#application">Application Guide</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div>
+            <h1>Mulching Mastery</h1>
+            <p>Discover the art and science of mulching. Learn how to improve soil health, conserve water, and create beautiful, thriving gardens with proper mulching techniques.</p>
+        </div>
+    </section>
+
+    <section id="types" class="section">
+        <h2>Types of Mulch</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Organic Mulch">
+                <div class="card-content">
+                    <h3>Organic Mulch</h3>
+                    <p>Explore natural options like bark, wood chips, straw, and leaves. These materials break down over time, enriching your soil with valuable nutrients and improving its structure.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Inorganic Mulch">
+                <div class="card-content">
+                    <h3>Inorganic Mulch</h3>
+                    <p>Discover long-lasting options like rocks, rubber, and landscape fabric. Perfect for permanent landscaping features and areas where minimal maintenance is desired.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Living Mulch">
+                <div class="card-content">
+                    <h3>Living Mulch</h3>
+                    <p>Learn about ground covers and cover crops that act as living mulch, providing soil protection while adding beauty and biodiversity to your garden.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="benefits" class="section benefits">
+        <h2>Benefits of Mulching</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Moisture Conservation">
+                <div class="card-content">
+                    <h3>Moisture Conservation</h3>
+                    <p>Mulch reduces water evaporation by up to 70%, keeping soil moist longer and reducing your watering needs. Perfect for drought-prone areas and water conservation.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Weed Control">
+                <div class="card-content">
+                    <h3>Weed Control</h3>
+                    <p>A proper layer of mulch prevents weed seeds from germinating and blocks sunlight from reaching existing weeds, reducing garden maintenance time significantly.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Temperature Regulation">
+                <div class="card-content">
+                    <h3>Temperature Regulation</h3>
+                    <p>Mulch acts as an insulator, keeping soil cooler in summer and warmer in winter. This temperature stability promotes healthy root growth and plant development.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="application" class="section tips">
+        <h2>Application Guide</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Proper Depth">
+                <div class="card-content">
+                    <h3>Proper Depth</h3>
+                    <p>Learn the ideal mulch depth for different plants and situations. Generally, maintain 2-4 inches for most applications, avoiding contact with plant stems and tree trunks.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Timing">
+                <div class="card-content">
+                    <h3>Timing</h3>
+                    <p>Discover the best times to apply mulch in your climate. Spring and fall applications are most common, with specific timing depending on your garden goals.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/400/300" alt="Maintenance">
+                <div class="card-content">
+                    <h3>Maintenance Tips</h3>
+                    <p>Keep your mulch effective with proper maintenance. Learn when to refresh, how to prevent fungal growth, and techniques for maintaining healthy mulch layers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
