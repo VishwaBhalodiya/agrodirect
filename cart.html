@@ -13,31 +13,36 @@
         }
 
         /* Navbar Styling */
-        nav {
+        .navbar {
             background-color: #006400;
+            padding: 12px 0;
         }
 
         .navbar-brand {
-            font-weight: 600;
-            font-size: 1.6rem;
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: #08560c !important;
         }
 
         .navbar-nav .nav-link {
-            color: #f8f9fa !important;
-            font-size: 1.1rem;
+            color: #145a09 !important;
+            font-size: 1.2rem;
             font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 15px;
         }
 
         .navbar-nav .nav-link:hover {
-            color: #c7e4c7 !important;
+            background-color: #228B22;
+            border-radius: 8px;
         }
 
         /* Cart Styling */
         .container {
             background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
             max-width: 900px;
             margin-top: 30px;
         }
@@ -45,8 +50,9 @@
         h2 {
             font-size: 2rem;
             text-align: center;
-            color: #006400;
+            color: #ecf2ec;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .cart-item {
@@ -58,33 +64,66 @@
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 10px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .cart-item:hover {
+            transform: scale(1.02);
         }
 
         .cart-item span {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 500;
+            color: #333;
         }
 
         .remove-btn {
             background-color: #e74c3c;
             color: white;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .remove-btn:hover {
             background-color: #c0392b;
+            transform: scale(1.05);
         }
 
-        #cartTotalPrice {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #27ae60;
+        /* Bill Display */
+        .bill-container {
+            border-top: 2px solid #27ae60;
+            padding-top: 15px;
             margin-top: 20px;
-            text-align: right;
+        }
+
+        .bill-summary {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #006400;
+            padding: 10px 0;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease-in-out, transform 0.2s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #218c52;
+            transform: scale(1.05);
         }
 
         footer {
@@ -93,9 +132,6 @@
             padding: 20px;
             color: #4a4a4a;
             margin-top: 30px;
-        }
-
-        footer p {
             font-size: 1rem;
             font-weight: 400;
         }
@@ -113,20 +149,32 @@
             h2 {
                 font-size: 1.6rem;
             }
+
+            .bill-summary {
+                font-size: 1.1rem;
+            }
+
+            .checkout-btn {
+                font-size: 1rem;
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">🌿 AgroConnect</a>
+            <a class="navbar-brand" href="#">🌿 AgroDirect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../home.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../shopnow.html">Shop Now</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#review">Review Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/cart.html">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/home page/home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shopnow.html">Shop Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contactus.html">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="review.html">Review Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
                 </ul>
             </div>
         </div>
@@ -137,11 +185,18 @@
         <div id="cartItemsList" class="list-group mt-4">
             <!-- Cart items will be displayed here -->
         </div>
-        <div id="cartTotalPrice" class="mt-3"><strong>Total: ₹0</strong></div>
+        
+        <!-- Bill Display -->
+        <div class="bill-container">
+            <div class="bill-summary">
+                <span>Total:</span>
+                <span id="cartTotalPrice">₹0</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
     </div>
 
     <script>
-        // Function to display items from localStorage
         function displayCart() {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartItemsList = document.getElementById('cartItemsList');
@@ -151,29 +206,26 @@
             let total = 0;
             cart.forEach((item, index) => {
                 const li = document.createElement('li');
-                li.classList.add('list-group-item');
-                li.classList.add('cart-item');
+                li.classList.add('list-group-item', 'cart-item');
                 li.innerHTML = `
-                    <span>${item.product} (₹${item.totalPrice} x ${item.quantity} kg)</span>
+                    <span>${item.product} (₹${(item.totalPrice * item.quantity).toLocaleString()} x ${item.quantity} kg)</span>
                     <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
                 `;
                 cartItemsList.appendChild(li);
 
-                total += item.totalPrice;
+                total += item.totalPrice * item.quantity;
             });
 
-            cartTotalPrice.innerHTML = `<strong>Total: ₹${total}</strong>`;
+            cartTotalPrice.innerHTML = `₹${total.toLocaleString()}`;
         }
 
-        // Function to remove item from cart
         function removeFromCart(index) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.splice(index, 1);  // Remove item from cart array
-            localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
-            displayCart();  // Refresh cart display
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
         }
 
-        // Call the displayCart function when the page is loaded
         document.addEventListener("DOMContentLoaded", displayCart);
     </script>
 

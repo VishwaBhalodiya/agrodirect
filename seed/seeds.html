@@ -357,17 +357,17 @@ footer {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">🌿 AgroConnect</a>
+            <a class="navbar-brand fw-bold" href="#">🌿 AgroDirect</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/home.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../shopnow.html">Shop Now</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#review">Review Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#cart">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/home page/home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/shopnow.html">Shop Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact.htm">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/review.html">Review Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart.html">Cart</a></li>
                 </ul>
                 <input type="text" class="search-box" placeholder="Search Products...">
                 <a href="login.html" class="btn btn-login ms-3" id="loginButton">Login</a>
@@ -381,7 +381,7 @@ footer {
                 <hr class="title-underline">
                 <!-- <div class="leaf-divider">🍃🍃🍃</div> -->
             </h2>
-            <a href="../home.html" class="btn back-home-btn">🏡 Back to Home</a>
+            <a href="/home page/home.html" class="btn back-home-btn">🏡 Back to Home</a>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">            <!-- Seed Cards -->
             <script>
@@ -398,45 +398,31 @@ footer {
                     { name: "Flax Seed", img: "main_seed_image/flax-seed.jpg", price: 110, desc: "Seeds for sweet and crunchy peas.", rating: 4.6, reviews: ["Perfect peas", "Good growth rate", "Great addition to garden."] }
                 ];
 
-                document.write(
-                    seeds.map(seed => ` 
-                        <div class="col">
-                            <div class="card product-card">
-                                <img src="${seed.img}" class="card-img-top product-img" alt="${seed.name}">
-                                <div class="card-body text-center">
-                                    <h5 class="product-title">${seed.name}</h5>
-                                    <p class="product-description">${seed.desc}</p>
-                                    <p class="product-price">₹${seed.price} / pack</p>
-                                    <div class="rating">
-                                        ${[...Array(5)].map((_, i) => i < seed.rating ? `<span class="stars">★</span>` : `<span>★</span>`).join('')}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="quantity" class="form-label">Quantity</label>
-                                        <input type="number" id="quantity" class="form-control quantity" min="0" value="0">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="unit" class="form-label">Unit</label>
-                                        <select class="form-select" id="unit">
-                                            <option value="pack">Pack</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="total" class="form-label">Total Price</label>
-                                        <input type="text" class="form-control" id="total" disabled>
-                                    </div>
-                                    <button class="btn-custom">Add to Cart</button>
-                                    <a href="${seed.name.toLowerCase().replace(/\s+/g, '-')}.html" class="btn btn-sm btn-outline-success">View</a>
-                                    <div class="collapse review-section" id="${seed.name.replace(/\s+/g, '')}Details">
-                                        <h6>Customer Reviews:</h6>
-                                        <ul>
-                                            ${seed.reviews.map(review => `<li>${review}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')
-                );
+                document.addEventListener("DOMContentLoaded", function () {
+    const seedContainer = document.querySelector(".row");
+
+    let seedHTML = seeds.map(seed => `
+        <div class="col">
+            <div class="card product-card">
+                <img src="${seed.img}" class="card-img-top product-img" alt="${seed.name}">
+                <div class="card-body text-center">
+                    <h5 class="product-title">${seed.name}</h5>
+                    <p class="product-description">${seed.desc}</p>
+                    <p class="product-price">₹${seed.price} / pack</p>
+                    <div class="rating">
+                        ${[...Array(5)].map((_, i) => i < seed.rating ? `<span class="stars">★</span>` : `<span>★</span>`).join('')}
+                    </div>
+                    <button class="btn-custom">Add to Cart</button>
+                   <a href="/seed/${seed.name.toLowerCase().replace(/\s+/g, '-')}.html" class="btn btn-sm btn-outline-success">View</a>
+
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    seedContainer.innerHTML = seedHTML;
+});
+
             </script>
         </div>
     </section>
