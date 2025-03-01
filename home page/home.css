@@ -40,10 +40,10 @@ body {
 /* Navbar Styling */
 .custom-navbar {
   background: linear-gradient(135deg, #166534, #145a32);
-  padding: 15px 0;
+  padding: 10px 0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
 }
 
 .navbar-brand {

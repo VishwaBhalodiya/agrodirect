@@ -4,152 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms & Conditions - Agro Direct</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #2E5A1C;
-            --secondary: #4A7C2B;
-            --accent: #D4E4BC;
-            --light: #F4F7F1;
-            --dark: #1A1A1A;
-        }
-
-        nav {
-            background-color: var(--primary);
-            padding: 1rem;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo span {
-            color: var(--accent);
-            font-size: 1rem;
-        }
-
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        .header {
-            margin-top: 70px;
-            padding: 3rem 2rem;
-            background: var(--light);
-            text-align: center;
-        }
-
-        .header h1 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .header p {
-            color: var(--dark);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .content {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .section {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .section h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .section p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            color: var(--dark);
-        }
-
-        .section ul {
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .section li {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
-        footer {
-            background: var(--primary);
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-
-            .header {
-                margin-top: 120px;
-            }
-        }
-    </style>
 </head>
 <body>
     <nav>
@@ -237,8 +91,80 @@
         </div>
     </div>
 
-    <footer>
-        <p>© 2025 Agro Direct - A Panji Devi Farm Initiative. All rights reserved.</p>
-    </footer>
+    
+<!-- Footer -->
+<footer class="organic-footer">
+    <div class="container">
+        <div class="row">
+            <!-- Company Info -->
+            <div class="col-lg-3 col-md-6 footer-column">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">AgroDirect</a>
+                    <p>Connecting farmers and consumers through sustainable, organic produce. We believe in quality, freshness, and environmental responsibility.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 footer-column">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/shopnow.html"><i class="fas fa-chevron-right"></i>Shop Products</a></li>
+                    <li><a href="/aboutus.html"><i class="fas fa-chevron-right"></i>About Us</a></li>
+                    <!-- <li><a href="/"><i class="fas fa-chevron-right"></i>Delivery Information</a></li> -->
+                    <li><a href="/privacypolicy.html"><i class="fas fa-chevron-right"></i>Privacy Policy</a></li>
+                    <li><a href="/termcondition.html"><i class="fas fa-chevron-right"></i>Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <!-- Product Categories -->
+            <div class="col-lg-3 col-md-6 footer-column">
+                <h3 class="footer-title">Product Categories</h3>
+                <div class="product-tags">
+                    <a href="/seed/seeds.html" class="product-tag">Organic Seeds</a>
+                    <a href="/fruit/fruits.html" class="product-tag">Fresh Fruits</a>
+                    <a href="/vegetables/vegetable.html" class="product-tag">Vegetables</a>
+                    <a href="/oil/coconut.html" class="product-tag">Organic Oils</a>
+                    <a href="/grains/grains.html" class="product-tag">Grains</a>
+                    <!-- <a href="/" class="product-tag">Pulses</a>
+                    <a href="#" class="product-tag">Spices</a>
+                    <a href="#" class="product-tag">Herbs</a> -->
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6 footer-column">
+                <h3 class="footer-title">Contact Us</h3>
+                <div class="footer-contact">
+                    <p><i class="fas fa-map-marker-alt"></i>PanjiDevi Farms Lalpur,Jamnagar,Gujarat</p>
+                    <p><i class="fas fa-phone"></i>+91 87996 604004</p>
+                    <p><i class="fas fa-envelope"></i> info@agrodirect.com</p>
+                    <p><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 6:00 PM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p>© 2025 Agro. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <!-- <p>Made with <i class="fas fa-heart heart"></i> for organic farming</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<link rel="stylesheet" href="termcondition.css">
+    <!-- Footer -->
 </body>
 </html>
