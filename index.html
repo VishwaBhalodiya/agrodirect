@@ -8,11 +8,9 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
     <style>
-        /* Background with transparent farm image */
         body {
-            background: url('https://img.freepik.com/free-photo/nature-product-backdrop-farm-sunlight_53876-143219.jpg?t=st=1739341311~exp=1739344911~hmac=b9069fef05ec1f9b721bf782301284d2b7a6cb42a9d2f97680c638cfa46569a1&w=996') no-repeat center center/cover;
+            background: url('https://img.freepik.com/free-photo/nature-product-backdrop-farm-sunlight_53876-143219.jpg') no-repeat center center/cover;
             position: relative;
         }
         body::before {
@@ -20,20 +18,16 @@
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* Transparent Dark Overlay */
-            backdrop-filter: blur(5px); /* Blurred Effect */
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
             z-index: -1;
         }
-
-        /* Centering the login/signup container */
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-
-        /* Form box styling */
         .form-box {
             display: flex;
             width: 850px;
@@ -42,32 +36,20 @@
             overflow: hidden;
             box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
         }
-
-        /* Left side form styling */
         .form-content {
             width: 50%;
             padding: 40px;
             text-align: center;
         }
-
-        /* Right side slider styling */
         .slider {
             width: 50%;
             position: relative;
-        } 
-        .carousel-inner {
-            height: 100%;
         }
         .carousel-item img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-top-right-radius: 15px;
-            border-bottom-right-radius: 1px;
             height: 55vh;
+            object-fit: cover;
         }
-
-        /* Input Fields */
         input {
             width: 100%;
             padding: 10px;
@@ -75,8 +57,6 @@
             border: 1px solid #4caf50;
             border-radius: 5px;
         }
-
-        /* Button styling */
         .btn-custom {
             width: 100%;
             padding: 10px;
@@ -87,119 +67,108 @@
             cursor: pointer;
             border-radius: 5px;
             transition: 0.3s;
+            margin: 5px 0;
         }
         .btn-custom:hover {
             background: #388e3c;
         }
-
-        /* Toggle Link */
         .toggle-link {
             color: #388e3c;
             cursor: pointer;
             font-weight: bold;
             text-decoration: underline;
         }
-        @media (max-width: 768px) {
-    .form-box {
-        flex-direction: column; /* Stack form and image vertically */
-        max-width: 100%;
-        width: 90%;
-    }
-    
-    .form-content {
-        width: 100%;
-        padding: 20px;
-    }
-    
-    .slider {
-        width: 100%;
-    }
-    
-    .carousel-item img {
-        height: auto;
-        max-height: 300px;
-    }
-    
-    input {
-        font-size: 14px;
-        padding: 8px;
-    }
-    
-    .btn-custom {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .password-requirements {
+            font-size: 12px;
+            color: #666;
+            text-align: left;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+        .invalid-feedback {
+            display: none;
+            color: #dc3545;
+            font-size: 14px;
+            text-align: left;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="form-box">
-            
-            <!-- Left Side: Login / Signup Form -->
             <div class="form-content">
-                
-                <!-- Login Form -->
-                <div id="loginForm">
+                <div id="roleSelection">
+                    <h2>Select Account Type</h2>
+                    <div class="btn-group">
+                        <button class="btn-custom" onclick="setRole('user')">User</button>
+                        <button class="btn-custom" onclick="setRole('admin')">Admin</button>
+                    </div>
+                </div>
+
+                <div id="loginForm" style="display: none;">
                     <h2>Login</h2>
                     <input type="email" id="loginEmail" placeholder="Email Address" required>
                     <input type="password" id="loginPassword" placeholder="Password" required>
+                    <div id="loginPasswordError" class="invalid-feedback"></div>
                     <button class="btn-custom" onclick="login()">Login</button>
                     <p><span class="toggle-link" onclick="showRecover()">Forgot Password?</span></p>
                     <p>Don't have an account? <span class="toggle-link" onclick="toggleForm('signupForm')">Sign Up</span></p>
                 </div>
 
-                <!-- Signup Form -->
                 <div id="signupForm" style="display: none;">
                     <h2>Sign Up</h2>
                     <input type="email" id="signupEmail" placeholder="Email Address" required>
                     <input type="text" id="signupName" placeholder="Full Name" required>
                     <input type="password" id="signupPassword" placeholder="Password" required>
+                    <div class="password-requirements">Password must be at least 6 characters and include at least one special character (!@#$%^&*(),.?":{}|<>)</div>
+                    <div id="signupPasswordError" class="invalid-feedback"></div>
                     <button class="btn-custom" onclick="signup()">Sign Up</button>
                     <p>Already have an account? <span class="toggle-link" onclick="toggleForm('loginForm')">Login</span></p>
                 </div>
 
-                <!-- Recover Password Form -->
                 <div id="recoverForm" style="display: none;">
                     <h2>Recover Password</h2>
                     <input type="email" id="recoverEmail" placeholder="Enter your email" required>
                     <button class="btn-custom" onclick="recoverPassword()">Recover Password</button>
                     <p>Back to <span class="toggle-link" onclick="toggleForm('loginForm')">Login</span></p>
                 </div>
-
             </div>
 
-            <!-- Right Side: Image Slider -->
             <div class="slider">
                 <div id="farmCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="/img1.avif" alt="Farm Image 1">
+                            <img src="login signup/img1.jpg" alt="Farm Image 1">
                         </div>
                         <div class="carousel-item">
-                            <img src="/img2.avif" alt="Farm Image 2">
+                            <img src="login signup/img2.jpg" alt="Farm Image 2">
                         </div>
                         <div class="carousel-item">
-                            <img src="/img3.avif" alt="Farm Image 3">
+                            <img src="login signup/img3.png" alt="Farm Image 3">
                         </div>
                         <div class="carousel-item">
-                            <img src="/img4.avif" alt="Farm Image 4">
+                            <img src="login signup/img4.jpeg" alt="Farm Image 4">
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Bootstrap 5 JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- JavaScript for Login, Signup, and Recover -->
     <script>
+        function setRole(role) {
+            document.getElementById("roleSelection").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        }
+
         function toggleForm(formId) {
     document.getElementById("loginForm").style.display = "none";
     document.getElementById("signupForm").style.display = "none";
@@ -223,7 +192,7 @@ function login() {
     if (email && password) {
         alert("Logged in successfully!");
         clearInputs();  
-        window.location.href = "home page/home.html";  // Redirect to dashboard after login
+        window.location.href = "home.html";  // Redirect to dashboard after login
     } else {
         alert("Please enter email or password.");
     }
@@ -248,27 +217,36 @@ function signup() {
 
     alert("Signed up successfully!");
     clearInputs();
-    window.location.href = "home page/home.html"; // Redirect to dashboard after signup
+    window.location.href = "home.html"; // Redirect to dashboard after signup
 }
 
+        function login() {
+            var email = document.getElementById("loginEmail").value;
+            var password = document.getElementById("loginPassword").value;
+            var storedPassword = localStorage.getItem(email);
+            var errorElement = document.getElementById("loginPasswordError");
+            
+            // Clear any previous error
+            errorElement.style.display = "none";
+            
+            if (storedPassword && storedPassword === password) {
+                alert("Login successful!");
+                window.location.href = "home page/home.html";
+            } else {
+                errorElement.textContent = "Invalid email or password";
+                errorElement.style.display = "block";
+            }
+        }
 
-function recoverPassword() {
-    let email = document.getElementById("recoverEmail").value;
-    
-    if (email) {
-        alert("Password recovery instructions sent!");
-        clearInputs();  
-        toggleForm("loginForm");  // Redirect back to login form
-    } else {
-        alert("Please enter your email.");
-    }
-}
-var myCarousel = new bootstrap.Carousel(document.getElementById('farmCarousel'), {
-        interval: 2000,  // 2 seconds
-        ride: 'carousel'
-    });
+        function showRecover() {
+            toggleForm('recoverForm');
+        }
 
+        function recoverPassword() {
+            var email = document.getElementById("recoverEmail").value;
+            alert("Password recovery instructions sent to " + email);
+            toggleForm('loginForm');
+        }
     </script>
-
 </body>
-</html>  
+</html>
