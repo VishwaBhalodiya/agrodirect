@@ -4,21 +4,29 @@
   "description": "��#\u0000 \u0000a\u0000g\u0000r\u0000o\u0000d\u0000i\u0000r\u0000e\u0000c\u0000t\u0000\r\u0000 \u0000#\u0000 \u0000a\u0000g\u0000r\u0000o\u0000d\u0000i\u0000r\u0000e\u0000c\u0000t\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-},
-
+    "start": "concurrently \"npm run server\" \"npm run python\" \"npm run adserver\"",
+    "server": "node \"C:\\Users\\palak\\OneDrive\\Desktop\\agro direct\\server.js\"",
+    "python": "python \"C:\\Users\\palak\\OneDrive\\Desktop\\agro direct\\home page\\app.py\"",
+    "adserver": "node \"C:\\Users\\palak\\OneDrive\\Desktop\\agro direct\\adserver.js\""
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.8.1",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.11.0",
     "nodemailer": "^6.10.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
