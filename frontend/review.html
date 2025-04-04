@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Us | AgroDirect</title>
+    <link rel="stylesheet" href="review.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">AgroDirect</div>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="privacypolicy.html">Privacy Policy</a></li>
+                <li><a href="review.html" class="active">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="reviews" class="reviews-section">
+        <h1>Customer Reviews</h1>
+        <p>We value your feedback! Share your experience with AgroDirect and help us improve our services.</p>
+        
+        <div id="review-stats">
+            <div class="stat-box">
+                <span id="average-rating">0.0</span>
+                <div id="average-stars" class="stars"></div>
+                <p>Average Rating</p>
+            </div>
+            <div class="stat-box">
+                <span id="total-reviews">0</span>
+                <p>Total Reviews</p>
+            </div>
+        </div>
+        
+        <form id="review-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email (will not be published):</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="rating">Rating:</label>
+            <div class="star-rating">
+                <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+                <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+                <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+                <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+                <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+            </div>
+            
+            <label for="review-title">Review Title:</label>
+            <input type="text" id="review-title" name="title" required>
+            
+            <label for="review">Your Review:</label>
+            <textarea id="review" name="review" rows="4" required></textarea>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Submit Review</button>
+                <div id="form-message"></div>
+            </div>
+        </form>
+        
+        <div id="reviews-list">
+            <h2>Recent Reviews</h2>
+            <div class="filter-controls">
+                <label for="rating-filter">Filter by:</label>
+                <select id="rating-filter">
+                    <option value="all">All Ratings</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Star</option>
+                </select>
+                <select id="sort-by">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="highest">Highest Rating</option>
+                    <option value="lowest">Lowest Rating</option>
+                </select>
+            </div>
+            <div id="reviews-container"></div>
+            <div class="pagination" id="pagination">
+                <button id="prev-page" disabled>Previous</button>
+                <span id="page-info">Page 1 of 1</span>
+                <button id="next-page" disabled>Next</button>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AgroDirect</h3>
+                <p>Connecting farmers directly to consumers since 2022.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="privacypolicy.html">Privacy Policy</a></li>
+                    <li><a href="review.html">Reviews</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@agrodirect.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AgroDirect | All Rights Reserved</p>
+        </div>
+    </footer>
+    <script>// server.js - Backend for AgroDirect Reviews System
+
+        const express = require('express');
+        const mongoose = require('mongoose');
+        const bodyParser = require('body-parser');
+        const cors = require('cors');
+        const path = require('path');
+        require('dotenv').config();
+        
+        // Initialize Express app
+        const app = express();
+        const PORT = process.env.PORT || 3000;
+        
+        // Middleware
+        app.use(cors());
+        app.use(bodyParser.json());
+        app.use(express.static(path.join(__dirname, 'public')));
+        
+        // MongoDB Connection
+        mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/agrodirect', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        .then(() => console.log('MongoDB connected successfully'))
+        .catch(err => console.error('MongoDB connection error:', err));
+        
+        // Review Schema
+        const reviewSchema = new mongoose.Schema({
+            name: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            email: {
+                type: String,
+                required: true,
+                trim: true,
+                lowercase: true
+            },
+            rating: {
+                type: Number,
+                required: true,
+                min: 1,
+                max: 5
+            },
+            title: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            review: {
+                type: String,
+                required: true
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            },
+            approved: {
+                type: Boolean,
+                default: true  // Auto-approve for simplicity (could be set to false for moderation)
+            }
+        });
+        
+        // Create model
+        const Review = mongoose.model('Review', reviewSchema);
+        
+        // Routes
+        
+        // Get all reviews with pagination, filtering and sorting
+        app.get('/api/reviews', async (req, res) => {
+            try {
+                // Pagination parameters
+                const page = parseInt(req.query.page) || 1;
+                const limit = parseInt(req.query.limit) || 5;
+                const skip = (page - 1) * limit;
+                
+                // Filter by rating
+                const filterRating = req.query.filter;
+                let filter = { approved: true };
+                if (filterRating && filterRating !== 'all') {
+                    filter.rating = parseInt(filterRating);
+                }
+                
+                // Sorting
+                let sortOption = {};
+                switch(req.query.sort) {
+                    case 'oldest':
+                        sortOption = { date: 1 };
+                        break;
+                    case 'highest':
+                        sortOption = { rating: -1, date: -1 };
+                        break;
+                    case 'lowest':
+                        sortOption = { rating: 1, date: -1 };
+                        break;
+                    case 'newest':
+                    default:
+                        sortOption = { date: -1 };
+                }
+                
+                // Execute query with pagination
+                const reviews = await Review.find(filter)
+                    .sort(sortOption)
+                    .skip(skip)
+                    .limit(limit);
+                
+                // Get total count for pagination
+                const totalReviews = await Review.countDocuments(filter);
+                const totalPages = Math.ceil(totalReviews / limit);
+                
+                // Calculate stats
+                const stats = await calculateStats();
+                
+                // Send response
+                res.json({
+                    reviews,
+                    totalReviews,
+                    totalPages,
+                    currentPage: page,
+                    stats
+                });
+                
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+                res.status(500).json({ message: 'Server error', error: error.message });
+            }
+        });
+        
+        // Submit a new review
+        app.post('/api/reviews', async (req, res) => {
+            try {
+                const { name, email, rating, title, review } = req.body;
+                
+                // Validate request
+                if (!name || !email || !rating || !title || !review) {
+                    return res.status(400).json({ message: 'All fields are required' });
+                }
+                
+                // Create new review
+                const newReview = new Review({
+                    name,
+                    email,
+                    rating: parseInt(rating),
+                    title,
+                    review,
+                    date: new Date()
+                });
+                
+                // Save to database
+                await newReview.save();
+                
+                res.status(201).json({ 
+                    message: 'Review submitted successfully',
+                    review: newReview
+                });
+                
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                res.status(500).json({ message: 'Server error', error: error.message });
+            }
+        });
+        
+        // Get review statistics (average rating, total reviews, etc.)
+        app.get('/api/reviews/stats', async (req, res) => {
+            try {
+                const stats = await calculateStats();
+                res.json(stats);
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+                res.status(500).json({ message: 'Server error', error: error.message });
+            }
+        });
+        
+        // Helper function to calculate review statistics
+        async function calculateStats() {
+            const aggregateResult = await Review.aggregate([
+                { $match: { approved: true } },
+                { 
+                    $group: {
+                        _id: null,
+                        totalReviews: { $sum: 1 },
+                        totalRating: { $sum: '$rating' },
+                        ratingsCount: { 
+                            $push: { 
+                                rating: '$rating'
+                            } 
+                        }
+                    }
+                }
+            ]);
+            
+            if (aggregateResult.length === 0) {
+                return {
+                    totalReviews: 0,
+                    averageRating: 0,
+                    ratingDistribution: {
+                        '5': 0, '4': 0, '3': 0, '2': 0, '1': 0
+                    }
+                };
+            }
+            
+            const stats = aggregateResult[0];
+            const averageRating = stats.totalRating / stats.totalReviews;
+            
+            // Calculate rating distribution
+            const ratingDistribution = {
+                '5': 0, '4': 0, '3': 0, '2': 0, '1': 0
+            };
+            
+            stats.ratingsCount.forEach(item => {
+                ratingDistribution[item.rating] += 1;
+            });
+            
+            return {
+                totalReviews: stats.totalReviews,
+                averageRating,
+                ratingDistribution
+            };
+        }
+        
+        // Catch-all route to serve the frontend
+        app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname, 'public', 'index.html'));
+        });
+        
+        // Start server
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });</script>
+    <link rel="stylesheet" href="">
+    <script src="reviewbackend.js"></script>
+</body>
+</html>

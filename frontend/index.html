@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroDirect - Farm Management Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <div class="form-content">
+                <div class="logo">
+                    <h1><i class="fas fa-leaf"></i> AgroDirect</h1>
+                    <p class="tagline">Direct fresh from the farm</p>
+                </div>
+                
+                <div id="roleSelection">
+                    <h2>Select Account Type</h2>
+                    <div class="btn-group">
+                        <button class="btn-custom" onclick="setRole('user')">
+                            <i class="fas fa-user"></i> User
+                        </button>
+                        <button class="btn-custom" onclick="setRole('admin')">
+                            <i class="fas fa-user-tie"></i>Admin
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="loginForm" style="display: none;">
+                    <h2>Login to Your Account</h2>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                        </div>
+                        <div id="loginPasswordError" class="invalid-feedback"></div>
+                    </div>
+                    <div class="remember-forgot">
+                        <label><input type="checkbox"> Remember me</label>
+                        <span class="toggle-link" onclick="showRecover()">Forgot Password?</span>
+                    </div>
+                    <button class="btn-custom" onclick="login(event)">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <p class="form-footer">Don't have an account? <span class="toggle-link" onclick="toggleForm('signupForm')">Sign Up</span></p>
+                </div>
+                
+                <div id="signupForm" style="display: none;">
+                    <h2>Create Your Account</h2>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="signupEmail" placeholder="Email Address" required>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="signupName" placeholder="Full Name" required>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="signupPassword" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="password-requirements">
+                        <i class="fas fa-info-circle"></i> Password must be at least 6 characters and include a special character (!@#$%^&*).
+                    </div>
+                    <button class="btn-custom" onclick="signup(event)">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                    <p class="form-footer">Already have an account? <span class="toggle-link" onclick="toggleForm('loginForm')">Login</span></p>
+                </div>
+                
+                <div id="recoverForm" style="display: none;">
+                    <h2>Recover Password</h2>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="recoverEmail" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    <button class="btn-custom" onclick="recoverPassword(event)">
+                        <i class="fas fa-key"></i> Reset Password
+                    </button>
+                    <p class="form-footer">Back to <span class="toggle-link" onclick="toggleForm('loginForm')">Login</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="index.css">
+</body>
+</html>

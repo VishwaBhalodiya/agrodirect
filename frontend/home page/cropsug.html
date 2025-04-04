@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Suggestion - AgroDirect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="cropsug.css">
+</head>
+<body>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#">🌿 AgroDirect</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link" href="./home.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../shopnow.html">Shop Now</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../contactus.html">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../review.html">Review Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../cart.html">Cart</a></li>
+                    </ul>
+                    
+                    <!-- User Dropdown Section -->
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown">
+                            <button class="btn btn-user dropdown-toggle d-none" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>
+                                <span id="userNameDisplay"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                                <li><a class="dropdown-item" href="orders.html"><i class="fas fa-shopping-bag me-2"></i>Orders</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutButton"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                        <a href="index.html" class="btn btn-login ms-3" id="loginButton">Login</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">Smart Crop Suggestions</h1>
+            <p class="hero-subtitle">Get personalized crop recommendations based on your location's climate, soil, and weather conditions to maximize your harvest and efficiency.</p>
+        </div>
+    </section>
+
+    <!-- Crop Suggestion Form -->
+    <section class="crop-suggestion-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="suggestion-card">
+                        <h2 class="card-title text-center">Get Your Crop Recommendations</h2>
+                        <p class="text-center mb-4">Our advanced algorithm analyzes your location's climate patterns, soil conditions, and current weather to suggest the most suitable crops for planting.</p>
+                        
+                        <form id="locationForm">
+                            <div class="mb-3">
+                                <label for="manualLocation" class="form-label">Enter Your Location</label>
+                                <input type="text" class="form-control" id="manualLocation" 
+                                       placeholder="e.g.'Anand,Gujarat'">
+                                <small class="form-text text-muted">
+                                    For best results, use: <br>
+                                    • "City,CountryCode" (e.g., "Anand,IN")<br>
+                                    • "District,State" (e.g., "Anand,Gujarat")<br>
+                                    • Nearby larger city name
+                                </small>
+                            </div>
+                            
+                            <div class="text-center mb-4">
+                                <p>- OR -</p>
+                            </div>
+                            
+                            <button type="button" id="detectLocationBtn" class="btn btn-detect">
+                                <i class="fas fa-location-arrow me-2"></i> Detect My Location
+                            </button>
+                        </form>
+                        
+                        <div class="loading-spinner" id="loadingSpinner">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-3">Analyzing location and weather data...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="results-card" id="resultsCard">
+                        <h2 class="card-title">Your Crop Recommendations</h2>
+                        
+                        <div class="location-info">
+                            <p><span class="location-label">Location:</span> <span id="locationResult">-</span></p>
+                            <p><span class="location-label">Soil Type:</span> <span id="soilType">-</span></p>
+                        </div>
+                        
+                        <div class="weather-info">
+                            <div class="weather-icon">
+                                <i class="fas fa-cloud-sun"></i>
+                            </div>
+                            <div class="weather-details">
+                                <h4>Current Weather</h4>
+                                <p><span id="weatherDescription">-</span>, <span id="temperature">-</span>°C</p>
+                                <p>Humidity: <span id="humidity">-</span>%</p>
+                            </div>
+                        </div>
+                        
+                        <div class="crops-recommendation">
+                            <h4>Recommended Crops</h4>
+                            <p>Based on your location's climate, soil conditions, and current weather patterns, we recommend the following crops:</p>
+                            
+                            <div class="crops-list" id="cropsList">
+                                <!-- Crop items will be dynamically added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="organic-footer">
+        <div class="container">
+            <div class="row">
+                <!-- Company Info -->
+                <div class="col-lg-3 col-md-6 footer-column">
+                    <div class="footer-about">
+                        <a href="#" class="footer-logo">AgroDirect</a>
+                        <p>Connecting farmers and consumers through sustainable, organic produce. We believe in quality, freshness, and environmental responsibility.</p>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-3 col-md-6 footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/shopnow.html"><i class="fas fa-chevron-right"></i>Shop Products</a></li>
+                        <li><a href="/aboutus.html"><i class="fas fa-chevron-right"></i>About Us</a></li>
+                        <li><a href="/privacypolicy.html"><i class="fas fa-chevron-right"></i>Privacy Policy</a></li>
+                        <li><a href="/termcondition.html"><i class="fas fa-chevron-right"></i>Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Product Categories -->
+                <div class="col-lg-3 col-md-6 footer-column">
+                    <h3 class="footer-title">Product Categories</h3>
+                    <div class="product-tags">
+                        <a href="/seed/seeds.html" class="product-tag">Organic Seeds</a>
+                        <a href="/fruit/fruits.html" class="product-tag">Fresh Fruits</a>
+                        <a href="/vegetables/vegetable.html" class="product-tag">Vegetables</a>
+                        <a href="/oil/coconut.html" class="product-tag">Organic Oils</a>
+                        <a href="/grains/grains.html" class="product-tag">Grains</a>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6 footer-column">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i>PanjiDevi Farms Lalpur,Jamnagar,Gujarat</p>
+                        <p><i class="fas fa-phone"></i>+91 87996 604004</p>
+                        <p><i class="fas fa-envelope"></i> info@agrodirect.com</p>
+                        <p><i class="fas fa-clock"></i> Mon - Sat: 8:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <p>© 2025 Agro. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <!-- <p>Made with <i class="fas fa-heart heart"></i> for organic farming</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+           document.addEventListener("DOMContentLoaded", function() {
+        // User authentication logic remains the same
+        
+        // Form submission handler
+        document.getElementById("locationForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            getCropRecommendations();
+        });
+        
+        // Detect location button handler
+        document.getElementById("detectLocationBtn").addEventListener("click", function() {
+            if (navigator.geolocation) {
+                document.getElementById("loadingSpinner").style.display = "flex";
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        try {
+                            // Reverse geocoding to get city name
+                            const response = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&limit=1&appid=ee0c213194b30fa25d6bff0361b663d0`);
+                            const data = await response.json();
+                            if (data && data.length > 0) {
+                                const location = `${data[0].name}, ${data[0].country}`;
+                                document.getElementById("manualLocation").value = location;
+                                getCropRecommendations();
+                            }
+                        } catch (error) {
+                            console.error("Geocoding error:", error);
+                            document.getElementById("loadingSpinner").style.display = "none";
+                            alert("Could not determine your location name. Please enter manually.");
+                        }
+                    },
+                    (error) => {
+                        document.getElementById("loadingSpinner").style.display = "none";
+                        alert("Location access denied. Please enter your location manually.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser. Please enter your location manually.");
+            }
+        });
+    });
+
+    async function getCropRecommendations() {
+        const locationInput = document.getElementById("manualLocation").value.trim();
+        
+        if (!locationInput) {
+            alert("Please enter a location");
+            return;
+        }
+        
+        const loadingSpinner = document.getElementById("loadingSpinner");
+        const resultsCard = document.getElementById("resultsCard");
+        
+        loadingSpinner.style.display = "flex";
+        resultsCard.style.display = "none";
+        
+        try {
+            const response = await fetch("http://localhost:5000/get_crops", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ location: locationInput }),
+            });
+            
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+            
+            const data = await response.json();
+            
+            // Display location and weather data
+            document.getElementById("locationResult").textContent = data.location;
+            document.getElementById("weatherDescription").textContent = data.weather.description;
+            document.getElementById("temperature").textContent = data.weather.temperature;
+            document.getElementById("humidity").textContent = data.weather.humidity;
+            
+            // Set weather icon
+            const weatherIcon = document.querySelector(".weather-icon i");
+            if (data.weather.icon) {
+                weatherIcon.className = getWeatherIconClass(data.weather.icon);
+            }
+            
+            // Populate recommended crops
+            const cropsList = document.getElementById("cropsList");
+            cropsList.innerHTML = "";
+            
+            // Split the response into individual crop recommendations
+            const crops = data.recommended_crops.split('\n').filter(item => item.trim() !== '');
+            
+            crops.forEach((crop) => {
+                if (crop.trim()) {
+                    const cropItem = document.createElement("div");
+                    cropItem.className = "crop-item";
+                    cropItem.innerHTML = `<i class="fas fa-seedling me-2"></i>${crop}`;
+                    cropsList.appendChild(cropItem);
+                }
+            });
+            
+            loadingSpinner.style.display = "none";
+            resultsCard.style.display = "block";
+            
+            // Smooth scroll to results
+            resultsCard.scrollIntoView({ behavior: 'smooth' });
+            
+        } catch (error) {
+            console.error("Error:", error);
+            loadingSpinner.style.display = "none";
+            alert("Failed to get crop recommendations. Please try again later.");
+        }
+        
+    }
+    
+    function getWeatherIconClass(iconCode) {
+        const iconMap = {
+            '01d': 'fas fa-sun',
+            '01n': 'fas fa-moon',
+            '02d': 'fas fa-cloud-sun',
+            '02n': 'fas fa-cloud-moon',
+            '03d': 'fas fa-cloud',
+            '03n': 'fas fa-cloud',
+            '04d': 'fas fa-cloud-meatball',
+            '04n': 'fas fa-cloud-meatball',
+            '09d': 'fas fa-cloud-rain',
+            '09n': 'fas fa-cloud-rain',
+            '10d': 'fas fa-cloud-sun-rain',
+            '10n': 'fas fa-cloud-moon-rain',
+            '11d': 'fas fa-bolt',
+            '11n': 'fas fa-bolt',
+            '13d': 'fas fa-snowflake',
+            '13n': 'fas fa-snowflake',
+            '50d': 'fas fa-smog',
+            '50n': 'fas fa-smog'
+        };
+        return iconMap[iconCode] || 'fas fa-cloud-sun';
+    }
+
+    </script>
+    
+    </body>
+    </html>
+    
