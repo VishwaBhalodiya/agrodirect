@@ -27,8 +27,13 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, default: 'user' },
   createdAt: { type: Date, default: Date.now },
-  cart: { type: Array, default: [] }
-
+  cart: [{
+    _id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() }, // Add unique ID
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    quantity: { type: Number, required: true },
+    unit: { type: String, enum: ['kg', 'g'], default: 'kg' }
+  }]
 });
 
 // Admin Schema
@@ -202,7 +207,7 @@ app.get('/api/cart', async (req, res) => {
     res.status(401).json({ error: 'Token invalid' });
   }
 });
-app.post('/api/cart', async (req, res) => {
+app.post('/api/cart/add', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'No token' });
 
@@ -211,19 +216,68 @@ app.post('/api/cart', async (req, res) => {
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    user.cart = req.body.cart; // Update the whole cart
+    const { name, price, quantity, unit } = req.body;
+
+    // Validate input
+    if (!name || !price || !quantity || !unit) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Check if item already exists in cart
+    const existingItem = user.cart.find(item => item.name === name && item.unit === unit);
+    if (existingItem) {
+      existingItem.quantity += quantity; // Update quantity if exists
+    } else {
+      user.cart.push({ name, price, quantity, unit }); // Add new item
+    }
+
+    await user.save();
+    res.json({ success: true, cart: user.cart });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update cart' });
+  }
+});
+
+app.put('/api/cart/update', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const { itemId, newQuantity } = req.body;
+
+    // Find item and update quantity
+    const item = user.cart.find(item => item._id == itemId);
+    if (!item) return res.status(404).json({ error: 'Item not found in cart' });
+
+    item.quantity = newQuantity;
     await user.save();
 
     res.json({ success: true, cart: user.cart });
   } catch (err) {
-    res.status(401).json({ error: 'Token invalid' });
+    console.error("Cart update error:", err.message);
+    res.status(500).json({ error: 'Failed to update cart' });
   }
 });
-app.get('/api/users', async (req, res) => {
+
+app.delete('/api/cart/remove', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token' });
+
   try {
-    const users = await User.find().select('-password'); // Exclude password field
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching users' });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const { itemId } = req.body;
+    user.cart = user.cart.filter(item => item._id.toString() !== itemId);
+    await user.save();
+
+    res.json({ success: true, cart: user.cart });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to remove item' });
   }
 });
