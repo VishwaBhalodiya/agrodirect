@@ -121,33 +121,4 @@
         }
     }
     
-    async function recoverPassword(event) {
-        event.preventDefault();
-        const email = document.getElementById("recoverEmail").value;
-        
-        try {
-            const response = await fetch('http://localhost:5000/api/recover', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email,
-                    role: selectedRole
-                }),
-            });
-            
-            const data = await response.json();
-            
-            if (response.ok) {
-                alert(data.message);
-                toggleForm('loginForm');
-                clearInputs();
-            } else {
-                alert(data.error || 'Password recovery failed');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Password recovery failed. Please try again.');
-        }
-    }
+    

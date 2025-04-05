@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/agrodirect", {  
+mongoose.connect("mongodb+srv://agrodirect:agro@cluster0.pjmhva6.mongodb.net/", {  
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log("MongoDB Connected"))
@@ -24,22 +24,12 @@ const itemSchema = new mongoose.Schema({
     rating: Number,
     isAvailable: { type: Boolean, default: false }
 });
-
-const oilExtractSchema = new mongoose.Schema({
-    name: String,
-    img: String,
-    price: Number,
-    desc: String,
-    rating: Number,
-    isAvailable: { type: Boolean, default: false },
-    size: { type: String, enum: ['500ml', '1l'], default: '500ml' }
-});
-
 const Fruit = mongoose.model("Fruit", itemSchema);
 const Vegetable = mongoose.model("Vegetable", itemSchema);
 const Seed = mongoose.model("Seed", itemSchema);
 const Sapling = mongoose.model("Sapling", itemSchema);
 const OilExtract = mongoose.model("OilExtract",itemSchema); // Using your existing collection
+const Grain = mongoose.model("Grain",itemSchema);
 
 // ✅ **Admin: Get All Items**
 app.get("/admin/fruits", async (req, res) => {
@@ -62,10 +52,15 @@ app.get("/admin/saplings", async (req, res) => {
     res.json(saplings);
 });
 
-app.get("/admin/oilextract", async (req, res) => {
+app.get("/admin/oilextracts", async (req, res) => {
     const oilExtracts = await OilExtract.find();
     res.json(oilExtracts);
 });
+app.get("/admin/grains", async (req, res) => {
+    const grains = await Grain.find();
+    res.json(grains);
+});
+
 
 // ✅ **Admin: Update Availability**
 app.post("/admin/select-fruit", async (req, res) => {
@@ -152,6 +147,27 @@ app.post("/admin/select-oilextract", async (req, res) => {
         message: size ? `Oil extract size and availability updated` : "Oil extract availability updated" 
     });
 });
+app.post("/admin/select-grain", async (req, res) => {
+    const { name, isAvailable, size } = req.body;
+
+    if (typeof isAvailable !== "boolean") {
+        return res.status(400).json({ success: false, message: "Invalid isAvailable value" });
+    }
+
+    const update = size ? { isAvailable, size } : { isAvailable };
+
+    const result = await Grain.updateOne({ name }, { $set: update });
+
+    if (result.matchedCount === 0) {
+        return res.status(404).json({ success: false, message: "Grain not found" });
+    }
+
+    res.json({ 
+        success: true, 
+        message: size ? `Grains size and availability updated` : "Grain availability updated" 
+    });
+});
+
 
 // ✅ **Client: Get Available Items**
 app.get("/client/fruits", async (req, res) => {
@@ -174,10 +190,15 @@ app.get("/client/saplings", async (req, res) => {
     res.json(saplings);
 });
 
-app.get("/client/oilextract", async (req, res) => {
+app.get("/client/oilextracts", async (req, res) => {
     const oilExtracts = await OilExtract.find({ isAvailable: true });
     res.json(oilExtracts);
 });
+app.get("/client/grains", async (req, res) => {
+    const grains = await Grain.find({ isAvailable: true });
+    res.json(grains);
+});
+
 
 // ✅ **Change Port to 5003**
 const PORT = 5003;

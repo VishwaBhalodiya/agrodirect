@@ -14,41 +14,42 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap"
     rel="stylesheet"
     />
-    <link rel="stylesheet" href="fruits.css">
+    <!-- <link rel="stylesheet" href="fruits.css"> -->
     <link rel="stylesheet" href="cart.css">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container">
-          <a class="navbar-brand fw-bold" href="#">🌿 AgroDirect</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link active" href="../shopnow.html">Shop Now</a></li>
-              <li class="nav-item"><a class="nav-link" href="../contactus.html">Contact Us</a></li>
-              <li class="nav-item"><a class="nav-link" href="../review.html">Review Us</a></li>
-              <li class="nav-item"><a class="nav-link" href="../cart.html">Cart <i class="fas fa-shopping-cart"></i></a></li>
-            </ul>
-            <div class="d-flex align-items-center">
-                <div class="dropdown" id="userDropdown" style="display: none;">
-                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span id="userNameDisplay"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                        <li><a class="dropdown-item" href="orders.html">My Orders</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
-                    </ul>
+            <a class="navbar-brand fw-bold" href="#">🌿 AgroDirect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="./home page/home.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="shopnow.html">Shop Now</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contactus.html">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="review.html">Review Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.html">Cart <i class="fas fa-shopping-cart"></i></a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown" id="userDropdown" style="display: none;">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span id="userNameDisplay"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                            <li><a class="dropdown-item" href="orders.html">My Orders</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
+                        </ul>
+                    </div>
+                    <a href="index.html" class="btn btn-login ms-3" id="loginButton">Login <i class="fas fa-sign-in-alt"></i></a>
                 </div>
-                <a href="index.html" class="btn btn-login ms-3" id="loginButton">Login <i class="fas fa-sign-in-alt"></i></a>
             </div>
-          </div>
         </div>
-      </nav>
+    </nav>
 
     <!-- Cart Section -->
     <section class="container my-5">
@@ -152,101 +153,151 @@
     <script src="/searchcard.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            displayCart();
+       document.addEventListener("DOMContentLoaded", function() {
+    // Check auth state on page load
+    checkAuthState();
+    displayCart();
+});
+
+function checkAuthState() {
+    const token = localStorage.getItem('agroToken');
+    const userDropdown = document.getElementById('userDropdown');
+    const loginButton = document.getElementById('loginButton');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+
+    if (token) {
+        // User is logged in
+        userDropdown.style.display = 'block';
+        loginButton.style.display = 'none';
+        
+        // You might want to decode the token to get the username
+        // For now, we'll just show "Account"
+        userNameDisplay.textContent = 'Account';
+    } else {
+        // User is not logged in
+        userDropdown.style.display = 'none';
+        loginButton.style.display = 'block';
+    }
+}
+
+        async function displayCart() {
+    const token = localStorage.getItem('agroToken');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartSummaryContainer = document.getElementById('cart-summary-container');
+    const emptyCartElement = document.getElementById('empty-cart');
+
+    if (!token) {
+        emptyCartElement.style.display = 'block';
+        cartSummaryContainer.innerHTML = '';
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/api/cart', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         });
 
-        function displayCart() {
-            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            const cartSummaryContainer = document.getElementById('cart-summary-container');
-            const emptyCartElement = document.getElementById('empty-cart');
+        if (!response.ok) {
+            throw new Error('Failed to fetch cart');
+        }
 
-            // Show empty cart message if cart is empty
-            if (cart.length === 0) {
-                emptyCartElement.style.display = 'block';
-                cartSummaryContainer.innerHTML = '';
-                return;
-            } else {
-                emptyCartElement.style.display = 'none';
-            }
+        const { cart } = await response.json();
 
-            // Generate cart items HTML
-            let cartItemsHTML = '';
-            let subtotal = 0;
+        if (!cart || cart.length === 0) {
+            emptyCartElement.style.display = 'block';
+            cartSummaryContainer.innerHTML = '';
+            return;
+        } else {
+            emptyCartElement.style.display = 'none';
+        }
 
-            cart.forEach((item, index) => {
-                // Calculate item total based on unit
-                let itemQuantityInKg = item.quantity;
-                if (item.unit === 'g') {
-                    itemQuantityInKg = item.quantity / 1000;
-                }
-                
-                const itemTotal = item.price * itemQuantityInKg;
-                subtotal += itemTotal;
+        // Continue with rendering the cart UI using `cart` from DB
+        renderCartUI(cart); // Delegate the UI part
+    } catch (err) {
+        console.error("Error loading cart:", err);
+        emptyCartElement.style.display = 'block';
+        cartSummaryContainer.innerHTML = '';
+    }
+}
+function renderCartUI(cart) {
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartSummaryContainer = document.getElementById('cart-summary-container');
 
-                cartItemsHTML += `
-                    <div class="cart-item">
-                        <div class="row align-items-center">
-                            <div class="col-md-5">
-                                <h5 class="cart-item-name">${item.name}</h5>
-                                <p class="text-muted">Price: ₹${item.price} / kg</p>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="quantity-selector">
-                                    <span class="quantity-btn" onclick="updateQuantity(${index}, -0.1)">-</span>
-                                    <input type="number" class="form-control mx-2 cart-quantity-input" value="${item.quantity}" 
-                                           min="0.1" step="0.1" onchange="updateItemQuantity(${index}, this.value)">
-                                    <span class="quantity-btn" onclick="updateQuantity(${index}, 0.1)">+</span>
-                                    <span class="ms-2">${item.unit}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-2 text-end">
-                                <p class="fw-bold">₹${itemTotal.toFixed(2)}</p>
-                            </div>
-                            <div class="col-md-1 text-end">
-                                <button class="btn btn-sm remove-btn" onclick="removeItem(${index})">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+    let cartItemsHTML = '';
+    let subtotal = 0;
+
+    cart.forEach((item, index) => {
+        let itemQuantityInKg = item.quantity;
+        if (item.unit === 'g') {
+            itemQuantityInKg = item.quantity / 1000;
+        }
+
+        const itemTotal = item.price * itemQuantityInKg;
+        subtotal += itemTotal;
+
+        cartItemsHTML += `
+            <div class="cart-item">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <h5 class="cart-item-name">${item.name}</h5>
+                        <p class="text-muted">Price: ₹${item.price} / kg</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="quantity-selector">
+                            <span class="quantity-btn" onclick="updateQuantity(${index}, -0.1)">-</span>
+                            <input type="number" class="form-control mx-2 cart-quantity-input" value="${item.quantity}" 
+                                   min="0.1" step="0.1" onchange="updateItemQuantity(${index}, this.value)">
+                            <span class="ms-2">${item.unit}</span>
                         </div>
                     </div>
-                `;
-            });
-
-            cartItemsContainer.innerHTML = cartItemsHTML;
-
-            // Calculate delivery fee and total
-            const deliveryFee = subtotal > 500 ? 0 : 40;
-            const total = subtotal + deliveryFee;
-
-            // Generate cart summary HTML
-            const cartSummaryHTML = `
-                <div class="cart-summary">
-                    <h4 class="summary-title">Order Summary</h4>
-                    <div class="summary-item">
-                        <span>Subtotal</span>
-                        <span>₹${subtotal.toFixed(2)}</span>
+                    <div class="col-md-2 text-end">
+                        <p class="fw-bold">₹${itemTotal.toFixed(2)}</p>
                     </div>
-                    <div class="summary-item">
-                        <span>Delivery Fee</span>
-                        <span>${deliveryFee === 0 ? 'Free' : '₹' + deliveryFee.toFixed(2)}</span>
+                    <div class="col-md-1 text-end">
+                        <button class="btn btn-sm remove-btn" onclick="removeItem(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
-                    <div class="summary-item total-line">
-                        <span>Total</span>
-                        <span>₹${total.toFixed(2)}</span>
-                    </div>
-                    ${deliveryFee > 0 ? 
-                        `<p class="text-muted small mt-2">Add ₹${(500 - subtotal).toFixed(2)} more for free delivery</p>` : 
-                        '<p class="text-muted small mt-2">You\'ve qualified for free delivery!</p>'}
-                    <button class="btn checkout-btn w-100" onclick="checkout()">
-                        Proceed to Checkout <i class="fas fa-arrow-right ms-1"></i>
-                    </button>
                 </div>
-            `;
+            </div>
+        `;
+    });
 
-            cartSummaryContainer.innerHTML = cartSummaryHTML;
-        }
+    cartItemsContainer.innerHTML = cartItemsHTML;
+
+    const deliveryFee = subtotal > 500 ? 0 : 40;
+    const total = subtotal + deliveryFee;
+
+    const cartSummaryHTML = `
+        <div class="cart-summary">
+            <h4 class="summary-title">Order Summary</h4>
+            <div class="summary-item">
+                <span>Subtotal</span>
+                <span>₹${subtotal.toFixed(2)}</span>
+            </div>
+            <div class="summary-item">
+                <span>Delivery Fee</span>
+                <span>${deliveryFee === 0 ? 'Free' : '₹' + deliveryFee.toFixed(2)}</span>
+            </div>
+            <div class="summary-item total-line">
+                <span>Total</span>
+                <span>₹${total.toFixed(2)}</span>
+            </div>
+            ${deliveryFee > 0 ? 
+                `<p class="text-muted small mt-2">Add ₹${(500 - subtotal).toFixed(2)} more for free delivery</p>` : 
+                '<p class="text-muted small mt-2">You\'ve qualified for free delivery!</p>'}
+            <button class="btn checkout-btn w-100" onclick="checkout()">
+                Proceed to Checkout <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+        </div>
+    `;
+
+    cartSummaryContainer.innerHTML = cartSummaryHTML;
+}
+
 
         function updateQuantity(index, change) {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -295,5 +346,14 @@
             // window.location.href = '/checkout.html';
         }
     </script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+     <script>
+         // Initialize auth when page loads
+         document.addEventListener("DOMContentLoaded", function() {
+             initAuth();
+         });
+     </script>
+     <script src="auth.js"></script>
 </body>
 </html>

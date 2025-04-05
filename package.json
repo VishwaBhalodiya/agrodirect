@@ -1,0 +1,12 @@
+{
+    "name": "agrodirect-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "start": "concurrently \"cd backend && npm start\" \"cd adminpanel && node server.js\""
+    },
+    "devDependencies": {
+      "concurrently": "^8.0.0"
+    }
+  }
+  

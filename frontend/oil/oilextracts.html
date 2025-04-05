@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saplings - AgroConnect</title>
+    <title>Oil Extracts - AgroConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -23,7 +23,7 @@
         .unit-selector {
             margin-bottom: 15px;
         }
-        .sapling-age {
+        .oil-type {
             margin-bottom: 15px;
         }
     </style>
@@ -56,24 +56,24 @@
                             <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
                         </ul>
                     </div>
-                    <a href="index.html" class="btn btn-login ms-3" id="loginButton">Login <i class="fas fa-sign-in-alt"></i></a>
+                    <a href="../index.html" class="btn btn-login ms-3" id="loginButton">Login <i class="fas fa-sign-in-alt"></i></a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Saplings Section -->
+    <!-- Oil Extracts Section -->
     <section class="container my-5">
         <div class="d-flex justify-content-between align-items-center title-container">
             <h2 class="title-text">
-                🌿 Healthy <span class="text-golden">Saplings</span>
+                🫒 Premium <span class="text-golden">Oil Extracts</span>
                 <hr class="title-underline">
             </h2>
-            <a href="/home.html" class="btn back-home-btn">🏡 Back to Home</a>
+            <a href="../shopnow.html" class="btn back-home-btn">🏡 Back to Home</a>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-4" id="saplings-container">
-            <!-- Saplings will be loaded dynamically -->
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-4" id="oils-container">
+            <!-- Oil extracts will be loaded dynamically -->
         </div>
     </section>
 
@@ -147,161 +147,172 @@
     </footer>
 
     <script>
-        async function fetchOils() {
-    try {
-        const response = await fetch("http://localhost:5003/client/oilextracts");
-        const oilsData = await response.json();
-
-        const oilsContainer = document.getElementById("oils-container");
-        oilsContainer.innerHTML = ""; // Clear previous content
-
-        // Get current cart items
-        let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-        // Generate oil cards dynamically
-        oilsData.forEach(oil => {
-            const oilId = oil.name.replace(/\s+/g, '-');
-            // Check if this oil is already in cart
-            const inCart = cart.some(item => item.name === oil.name);
-            
-            const oilCard = `
-                <div class="col">
-                    <div class="card product-card">
-                        <img src="${oil.img}" class="card-img-top product-img" alt="${oil.name}" style="height: 200px; object-fit: cover;">
-                        <div class="card-body text-center">
-                            <h5 class="product-title">${oil.name}</h5>
-                            <p class="product-description">${oil.desc}</p>
-                            <p class="product-price">₹${oil.price} / 500ml</p>
-                            <div class="rating mb-2">
-                                ${'<i class="fas fa-star text-warning"></i>'.repeat(Math.floor(oil.rating))}
-                                ${oil.rating % 1 >= 0.5 ? '<i class="fas fa-star-half-alt text-warning"></i>' : ''}
-                                <span class="ms-1">(${oil.rating})</span>
+        async function fetchOilExtracts() {
+            try {
+                const response = await fetch("http://localhost:5003/client/oilextracts");
+                const oilsData = await response.json();
+    
+                const oilsContainer = document.getElementById("oils-container");
+                oilsContainer.innerHTML = ""; // Clear previous content
+    
+                // Get current cart items
+                let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    
+                // Generate oil extract cards dynamically
+                oilsData.forEach(oil => {
+                    const oilId = oil.name.replace(/\s+/g, '-');
+                    // Check if this oil is already in cart
+                    const inCart = cart.some(item => item.name === oil.name);
+                    
+                    const oilCard = `
+                        <div class="col">
+                            <div class="card product-card">
+                                <img src="${oil.img}" class="card-img-top product-img" alt="${oil.name}">
+                                <div class="card-body text-center">
+                                    <h5 class="product-title">${oil.name}</h5>
+                                    <p class="product-description">${oil.desc}</p>
+                                    <p class="product-price">₹${oil.price} per bottle</p>
+                                </div>
+                                
+                                <div class="quantity-selector">
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="decrementQuantity('${oil.name}')">-</button>
+                                    <input type="number" class="form-control quantity-input" id="quantity-${oilId}" value="1" min="1" step="1">
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="incrementQuantity('${oil.name}')">+</button>
+                                </div>
+                                
+                                <div class="oil-type">
+                                    <select class="form-select" id="type-${oilId}">
+                                        <option value="coldpressed">Cold Pressed</option>
+                                        <option value="refined">Refined</option>
+                                        <option value="virgin">Virgin</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="unit-selector">
+                                    <select class="form-select" id="size-${oilId}">
+                                        <option value="250ml">250ml</option>
+                                        <option value="500ml">500ml</option>
+                                        <option value="1ltr">1 Liter</option>
+                                    </select>
+                                </div>
+                                
+                                <button class="btn ${inCart ? 'btn-danger' : 'btn-success'} w-100" 
+                                        onclick="${inCart ? `removeFromCart('${oil.name}')` : `addToCart('${oil.name}', ${oil.price})`}" 
+                                        id="cart-btn-${oilId}">
+                                    ${inCart ? 'Remove from Cart' : 'Add to Cart'}
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="quantity-selector">
-                            <button class="btn btn-sm btn-outline-secondary" onclick="decrementQuantity('${oil.name}')">-</button>
-                            <input type="number" class="form-control quantity-input" id="quantity-${oilId}" value="1" min="1" step="1">
-                            <button class="btn btn-sm btn-outline-secondary" onclick="incrementQuantity('${oil.name}')">+</button>
-                        </div>
-                        
-                        <div class="unit-selector">
-                            <select class="form-select" id="size-${oilId}">
-                                <option value="500ml">500ml Bottle</option>
-                                <option value="1l">1 Liter</option>
-                            </select>
-                        </div>
-                        
-                        <button class="btn ${inCart ? 'btn-danger' : 'btn-success'} w-100" 
-                                onclick="${inCart ? `removeFromCart('${oil.name}')` : `addToCart('${oil.name}', ${oil.price})`}" 
-                                id="cart-btn-${oilId}">
-                            ${inCart ? 'Remove from Cart' : 'Add to Cart'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            oilsContainer.innerHTML += oilCard;
-        });
-    } catch (error) {
-        console.error("Error fetching oils:", error);
-    }
-}
-
-function incrementQuantity(oilName) {
-    const inputId = `quantity-${oilName.replace(/\s+/g, '-')}`;
-    const input = document.getElementById(inputId);
-    input.value = parseInt(input.value) + 1;
-}
-
-function decrementQuantity(oilName) {
-    const inputId = `quantity-${oilName.replace(/\s+/g, '-')}`;
-    const input = document.getElementById(inputId);
-    if (parseInt(input.value) > 1) {
-        input.value = parseInt(input.value) - 1;
-    }
-}
-
-function addToCart(itemName, basePrice) {
-    const quantityId = `quantity-${itemName.replace(/\s+/g, '-')}`;
-    const sizeId = `size-${itemName.replace(/\s+/g, '-')}`;
-    const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
-
-    const quantity = parseInt(document.getElementById(quantityId).value);
-    const size = document.getElementById(sizeId).value;
-
-    // Calculate price based on size
-    let finalPrice = basePrice;
-    let displaySize = '500ml';
+                    `;
+                    oilsContainer.innerHTML += oilCard;
+                });
+            } catch (error) {
+                console.error("Error fetching oil extracts:", error);
+            }
+        }
     
-    if (size === '1l') {
-        finalPrice = Math.round(basePrice * 1.9); // 10% discount for 1 liter
-        displaySize = '1 liter';
-    }
+        function incrementQuantity(oilName) {
+            const inputId = `quantity-${oilName.replace(/\s+/g, '-')}`;
+            const input = document.getElementById(inputId);
+            input.value = parseInt(input.value) + 1;
+        }
+    
+        function decrementQuantity(oilName) {
+            const inputId = `quantity-${oilName.replace(/\s+/g, '-')}`;
+            const input = document.getElementById(inputId);
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+    
+        function addToCart(itemName, basePrice) {
+            const quantityId = `quantity-${itemName.replace(/\s+/g, '-')}`;
+            const typeId = `type-${itemName.replace(/\s+/g, '-')}`;
+            const sizeId = `size-${itemName.replace(/\s+/g, '-')}`;
+            const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
 
-    const totalPrice = finalPrice * quantity;
+            const quantity = parseInt(document.getElementById(quantityId).value);
+            const type = document.getElementById(typeId).value;
+            const size = document.getElementById(sizeId).value;
 
-    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            // Calculate price multiplier based on type and size
+            let priceMultiplier = 1;
+            if (type === 'virgin') priceMultiplier = 1.5;
+            if (type === 'refined') priceMultiplier = 1.2;
+            
+            if (size === '500ml') priceMultiplier *= 1.8;
+            if (size === '1ltr') priceMultiplier *= 3.5;
 
-    // Check if the item already exists with same size
-    let existingItem = cart.find(item => item.name === itemName && item.size === size);
+            const finalPrice = Math.round(basePrice * priceMultiplier);
+            const totalPrice = finalPrice * quantity;
 
-    if (existingItem) {
-        existingItem.quantity += quantity;
-        existingItem.totalPrice = existingItem.quantity * finalPrice;
-    } else {
-        cart.push({
-            name: itemName,
-            basePrice: basePrice,
-            finalPrice: finalPrice,
-            totalPrice: totalPrice,
-            quantity: quantity,
-            size: size,
-            displaySize: displaySize
-        });
-    }
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+            // Check if the item already exists with same type and size
+            let existingItem = cart.find(item => 
+                item.name === itemName && item.type === type && item.size === size
+            );
 
-    // Update button to "Remove from Cart"
-    const btn = document.getElementById(btnId);
-    btn.classList.remove('btn-success');
-    btn.classList.add('btn-danger');
-    btn.textContent = 'Remove from Cart';
-    btn.setAttribute('onclick', `removeFromCart('${itemName}', ${basePrice})`);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+                existingItem.totalPrice = existingItem.quantity * finalPrice;
+            } else {
+                cart.push({
+                    name: itemName,
+                    basePrice: basePrice,
+                    finalPrice: finalPrice,
+                    totalPrice: totalPrice,
+                    quantity: quantity,
+                    type: type,
+                    size: size
+                });
+            }
 
-    alert(`${quantity} ${displaySize} ${itemName} added to cart at ₹${finalPrice} each. Total: ₹${totalPrice}`);
-}
+            sessionStorage.setItem('cart', JSON.stringify(cart));
 
-function removeFromCart(itemName, basePrice) {
-    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            // Update button to "Remove from Cart"
+            const btn = document.getElementById(btnId);
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-danger');
+            btn.textContent = 'Remove from Cart';
+            btn.setAttribute('onclick', `removeFromCart('${itemName}', ${basePrice})`);
 
-    // Remove all instances of this oil from cart
-    cart = cart.filter(item => item.name !== itemName);
+            alert(`${quantity} ${size} ${type} ${itemName} added to cart at ₹${finalPrice} each. Total: ₹${totalPrice}`);
+        }
+    
+        function removeFromCart(itemName, basePrice) {
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+            // Remove all instances of this oil from cart
+            cart = cart.filter(item => item.name !== itemName);
 
-    // Update button to "Add to Cart"
-    const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
-    const btn = document.getElementById(btnId);
-    if (btn) {
-        btn.classList.remove('btn-danger');
-        btn.classList.add('btn-success');
-        btn.textContent = 'Add to Cart';
-        btn.setAttribute('onclick', `addToCart('${itemName}', ${basePrice})`);
-    }
+            sessionStorage.setItem('cart', JSON.stringify(cart));
 
-    alert(`${itemName} removed from cart`);
-}
+            // Update button to "Add to Cart"
+            const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
+            const btn = document.getElementById(btnId);
+            if (btn) {
+                btn.classList.remove('btn-danger');
+                btn.classList.add('btn-success');
+                btn.textContent = 'Add to Cart';
+                btn.setAttribute('onclick', `addToCart('${itemName}', ${basePrice})`);
+            }
 
-function getBasePrice(itemName) {
-    // This would typically fetch the base price from your data
-    // For simplicity, we'll return a default value
-    return 350; // Default price for 500ml
-}
+            alert(`${itemName} removed from cart`);
+        }
 
-// Load oils when page is fully loaded
-document.addEventListener("DOMContentLoaded", fetchOils);
+        // Load oil extracts when page is fully loaded
+        document.addEventListener("DOMContentLoaded", fetchOilExtracts);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script>
+        // Initialize auth when page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            initAuth();
+        });
+    </script>
+    <script src="../auth.js"></script>
 </body>
 </html>

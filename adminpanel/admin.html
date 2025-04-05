@@ -8,203 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding-top: 70px;
-        }
-        .navbar-custom {
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .navbar-brand {
-            font-weight: 700;
-            color: #2c3e50;
-        }
-        .navbar-brand i {
-            color: #27ae60;
-        }
-        .nav-link {
-            font-weight: 500;
-            color: #34495e;
-            margin: 0 5px;
-        }
-        .nav-link:hover {
-            color: #27ae60;
-        }
-        .btn-login {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            font-weight: 500;
-        }
-        .btn-login:hover {
-            background-color: #219653;
-            color: white;
-        }
-        .btn-order {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            font-weight: 500;
-        }
-        .btn-order:hover {
-            background-color: #2980b9;
-            color: white;
-        }
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .panel-header {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        .panel-title {
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 0;
-        }
-        .section-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s;
-        }
-        .section-card:hover {
-            transform: translateY(-5px);
-        }
-        .section-title {
-            color: #2c3e50;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f1f1;
-        }
-        .item-table {
-            border-collapse: separate;
-            border-spacing: 0;
-            width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .item-table th {
-            background-color: #3498db;
-            color: white;
-            padding: 15px;
-            font-weight: 500;
-        }
-        .item-table td {
-            padding: 12px 15px;
-            vertical-align: middle;
-        }
-        .item-table tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        .item-table tbody tr:hover {
-            background-color: #f1f7fc;
-        }
-        .item-img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-        }
-        .item-name {
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        .form-check-input {
-            width: 1.5em;
-            height: 1.5em;
-            cursor: pointer;
-        }
-        .form-check-input:checked {
-            background-color: #2ecc71;
-            border-color: #2ecc71;
-        }
-        .form-switch .form-check-input {
-            width: 3em;
-        }
-        .loading-spinner {
-            display: none;
-            margin: 50px auto;
-            text-align: center;
-        }
-        .fruits-section {
-            border-top: 4px solid #e74c3c;
-        }
-        .vegetables-section {
-            border-top: 4px solid #2ecc71;
-        }
-        .seeds-section {
-            border-top: 4px solid #f39c12;
-        }
-        .saplings-section {
-            border-top: 4px solid #9b59b6;
-        }
-        .oil-extracts-section {
-            border-top: 4px solid #3498db;
-        }
-        .grains-section {
-            border-top: 4px solid #e67e22;
-        }
-        .status-badge {
-            font-size: 0.8rem;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-        .status-available {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .status-unavailable {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        .alert-toast {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 9999;
-            max-width: 350px;
-        }
-        .category-nav {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        .category-nav a {
-            color: #2c3e50;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .category-nav a:hover, .category-nav a.active {
-            background-color: #f1f7fc;
-            color: #3498db;
-        }
-        .category-nav a i {
-            margin-right: 5px;
-        }
-        .badge-count {
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            border-radius: 50px;
-        }
-    </style>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -217,22 +21,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-box me-1"></i>Products</a>
+                        <a class="nav-link active" href="admin.html"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-chart-bar me-1"></i>Analytics</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-cog me-1"></i>Settings</a>
+                        <a class="nav-link" href="user.html"><i class="fas fa-cog me-1"></i>Users</a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-order me-2"><i class="fas fa-shopping-cart me-1"></i>Orders</button>
-                    <button class="btn btn-login"><i class="fas fa-sign-in-alt me-1"></i>Login</button>
+                    <a href="orders.html" class="btn btn-order me-2">
+                        <i class="fas fa-shopping-cart me-1"></i>Orders
+                    </a>
+                    <a href="../frontend/index.html" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login
+                    </a>
                 </div>
+                
             </div>
         </div>
     </nav>
@@ -427,7 +233,7 @@
             fetchItems("vegetables", "#vegetableTable", "/admin/select-vegetable", "#vegetableCount");
             fetchItems("seeds", "#seedTable", "/admin/select-seed", "#seedCount");
             fetchItems("saplings", "#saplingTable", "/admin/select-sapling", "#saplingCount");
-            fetchItems("oils", "#oilTable", "/admin/select-oil", "#oilCount");
+            fetchItems("oilextracts", "#oilTable", "/admin/select-oilextract", "#oilCount");
             fetchItems("grains", "#grainTable", "/admin/select-grain", "#grainCount");
             
             function fetchItems(type, tableId, updateUrl, countId) {
@@ -616,7 +422,7 @@
                         names: ["Mango", "Apple", "Oak", "Neem", "Eucalyptus", "Pine", "Banyan", "Palm"],
                         imgPrefix: "https://via.placeholder.com/60x60?text="
                     },
-                    oils: {
+                    oilextracts: {
                         names: ["Olive", "Coconut", "Sunflower", "Mustard", "Sesame", "Almond", "Castor", "Jojoba"],
                         imgPrefix: "https://via.placeholder.com/60x60?text="
                     },

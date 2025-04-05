@@ -26,7 +26,9 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, default: 'user' },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  cart: { type: Array, default: [] }
+
 });
 
 // Admin Schema
@@ -125,24 +127,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Password recovery endpoint
-app.post('/api/recover', async (req, res) => {
-  const { email, role } = req.body;
 
-  try {
-    let Model = role === 'admin' ? Admin : User;
-    const user = await Model.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ error: 'Email not found' });
-    }
-
-    // In a real app, you would send a password reset email here
-    res.json({ message: 'Password reset link sent to your email' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // Protected route example
 app.get('/api/protected', async (req, res) => {
@@ -194,7 +179,51 @@ app.post('/api/validate-session', async (req, res) => {
   }
 });
 
+
+
 app.post('/api/logout', async (req, res) => {
   // In a real app, you might want to blacklist the token
   res.json({ success: true });
+});
+
+
+
+app.get('/api/cart', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    res.json({ cart: user.cart });
+  } catch (err) {
+    res.status(401).json({ error: 'Token invalid' });
+  }
+});
+app.post('/api/cart', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'No token' });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    user.cart = req.body.cart; // Update the whole cart
+    await user.save();
+
+    res.json({ success: true, cart: user.cart });
+  } catch (err) {
+    res.status(401).json({ error: 'Token invalid' });
+  }
+});
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find().select('-password'); // Exclude password field
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching users' });
+  }
 });
