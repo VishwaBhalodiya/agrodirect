@@ -225,82 +225,96 @@
             }
         }
     
-        function addToCart(itemName, basePrice) {
-            const quantityId = `quantity-${itemName.replace(/\s+/g, '-')}`;
-            const typeId = `type-${itemName.replace(/\s+/g, '-')}`;
-            const sizeId = `size-${itemName.replace(/\s+/g, '-')}`;
-            const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
+        async function addToCart(itemName, itemPrice) {
+  const quantityId = `quantity-${itemName.replace(/\s+/g, '-')}`;
+  const unitId = `unit-${itemName.replace(/\s+/g, '-')}`;
+  const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
+  
+  const quantity = parseFloat(document.getElementById(quantityId).value);
+  const unit = document.getElementById(unitId).value;
+  const token = localStorage.getItem('agroToken');
 
-            const quantity = parseInt(document.getElementById(quantityId).value);
-            const type = document.getElementById(typeId).value;
-            const size = document.getElementById(sizeId).value;
+  if (!token) {
+    alert('Please login to add items to cart');
+    window.location.href = '/index.html'; // Redirect to login
+    return;
+  }
 
-            // Calculate price multiplier based on type and size
-            let priceMultiplier = 1;
-            if (type === 'virgin') priceMultiplier = 1.5;
-            if (type === 'refined') priceMultiplier = 1.2;
-            
-            if (size === '500ml') priceMultiplier *= 1.8;
-            if (size === '1ltr') priceMultiplier *= 3.5;
+  try {
+    const response = await fetch('http://localhost:5000/api/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name: itemName,
+        price: itemPrice,
+        quantity: quantity,
+        unit: unit
+      })
+    });
 
-            const finalPrice = Math.round(basePrice * priceMultiplier);
-            const totalPrice = finalPrice * quantity;
+    if (!response.ok) throw new Error('Failed to add to cart');
 
-            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-
-            // Check if the item already exists with same type and size
-            let existingItem = cart.find(item => 
-                item.name === itemName && item.type === type && item.size === size
-            );
-
-            if (existingItem) {
-                existingItem.quantity += quantity;
-                existingItem.totalPrice = existingItem.quantity * finalPrice;
-            } else {
-                cart.push({
-                    name: itemName,
-                    basePrice: basePrice,
-                    finalPrice: finalPrice,
-                    totalPrice: totalPrice,
-                    quantity: quantity,
-                    type: type,
-                    size: size
-                });
-            }
-
-            sessionStorage.setItem('cart', JSON.stringify(cart));
-
-            // Update button to "Remove from Cart"
-            const btn = document.getElementById(btnId);
-            btn.classList.remove('btn-success');
-            btn.classList.add('btn-danger');
-            btn.textContent = 'Remove from Cart';
-            btn.setAttribute('onclick', `removeFromCart('${itemName}', ${basePrice})`);
-
-            alert(`${quantity} ${size} ${type} ${itemName} added to cart at ₹${finalPrice} each. Total: ₹${totalPrice}`);
-        }
+    // Update UI
+    const btn = document.getElementById(btnId);
+    btn.classList.remove('btn-success');
+    btn.classList.add('btn-danger');
+    btn.textContent = 'Remove from Cart';
+    btn.onclick = () => removeFromCart(itemName);
     
-        function removeFromCart(itemName, basePrice) {
-            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    alert(`${quantity} ${unit} of ${itemName} added to cart`);
+  } catch (err) {
+    console.error("Error adding to cart:", err);
+    alert('Failed to add item to cart');
+  }
+}
 
-            // Remove all instances of this oil from cart
-            cart = cart.filter(item => item.name !== itemName);
+async function removeFromCart(itemName) {
+  const token = localStorage.getItem('agroToken');
+  const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
 
-            sessionStorage.setItem('cart', JSON.stringify(cart));
+  if (!token) {
+    alert('Please login to manage your cart');
+    return;
+  }
 
-            // Update button to "Add to Cart"
-            const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
-            const btn = document.getElementById(btnId);
-            if (btn) {
-                btn.classList.remove('btn-danger');
-                btn.classList.add('btn-success');
-                btn.textContent = 'Add to Cart';
-                btn.setAttribute('onclick', `addToCart('${itemName}', ${basePrice})`);
-            }
+  try {
+    // Fetch user's cart to get the item ID
+    const cartResponse = await fetch('http://localhost:5000/api/cart', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const { cart } = await cartResponse.json();
+    const item = cart.find(item => item.name === itemName);
 
-            alert(`${itemName} removed from cart`);
-        }
+    if (!item) throw new Error('Item not found in cart');
 
+    // Remove item by ID
+    const response = await fetch('http://localhost:5000/api/cart/remove', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ itemId: item._id })
+    });
+
+    if (!response.ok) throw new Error('Failed to remove from cart');
+
+    // Update UI
+    const btn = document.getElementById(btnId);
+    btn.classList.remove('btn-danger');
+    btn.classList.add('btn-success');
+    btn.textContent = 'Add to Cart';
+    btn.onclick = () => addToCart(itemName, itemPrice);
+    
+    alert(`${itemName} removed from cart`);
+  } catch (err) {
+    console.error("Error removing from cart:", err);
+    alert('Failed to remove item from cart');
+  }
+}
         // Load oil extracts when page is fully loaded
         document.addEventListener("DOMContentLoaded", fetchOilExtracts);
     </script>

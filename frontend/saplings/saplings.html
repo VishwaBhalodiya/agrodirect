@@ -265,47 +265,98 @@
             size: size
         });
     }
+}
 
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+async function addToCart(itemName, itemPrice) {
+  const quantityId = `quantity-${itemName.replace(/\s+/g, '-')}`;
+  const unitId = `unit-${itemName.replace(/\s+/g, '-')}`;
+  const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
+  
+  const quantity = parseFloat(document.getElementById(quantityId).value);
+  const unit = document.getElementById(unitId).value;
+  const token = localStorage.getItem('agroToken');
 
-    // Update button to "Remove from Cart"
+  if (!token) {
+    alert('Please login to add items to cart');
+    window.location.href = '/index.html'; // Redirect to login
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:5000/api/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name: itemName,
+        price: itemPrice,
+        quantity: quantity,
+        unit: unit
+      })
+    });
+
+    if (!response.ok) throw new Error('Failed to add to cart');
+
+    // Update UI
     const btn = document.getElementById(btnId);
     btn.classList.remove('btn-success');
     btn.classList.add('btn-danger');
     btn.textContent = 'Remove from Cart';
-    btn.setAttribute('onclick', `removeFromCart('${itemName}', ${basePrice})`);
-
-    alert(`${quantity} ${age} ${size} ${itemName} sapling(s) added to cart at ₹${finalPrice} each. Total: ₹${totalPrice}`);
+    btn.onclick = () => removeFromCart(itemName);
+    
+    alert(`${quantity} ${unit} of ${itemName} added to cart`);
+  } catch (err) {
+    console.error("Error adding to cart:", err);
+    alert('Failed to add item to cart');
+  }
 }
 
-    
-function removeFromCart(itemName, basePrice) {
-    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+async function removeFromCart(itemName) {
+  const token = localStorage.getItem('agroToken');
+  const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
 
-    // Remove all instances of this sapling from cart
-    cart = cart.filter(item => item.name !== itemName);
+  if (!token) {
+    alert('Please login to manage your cart');
+    return;
+  }
 
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+  try {
+    // Fetch user's cart to get the item ID
+    const cartResponse = await fetch('http://localhost:5000/api/cart', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const { cart } = await cartResponse.json();
+    const item = cart.find(item => item.name === itemName);
 
-    // Update button to "Add to Cart"
-    const btnId = `cart-btn-${itemName.replace(/\s+/g, '-')}`;
+    if (!item) throw new Error('Item not found in cart');
+
+    // Remove item by ID
+    const response = await fetch('http://localhost:5000/api/cart/remove', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ itemId: item._id })
+    });
+
+    if (!response.ok) throw new Error('Failed to remove from cart');
+
+    // Update UI
     const btn = document.getElementById(btnId);
-    if (btn) {
-        btn.classList.remove('btn-danger');
-        btn.classList.add('btn-success');
-        btn.textContent = 'Add to Cart';
-        btn.setAttribute('onclick', `addToCart('${itemName}', ${basePrice})`);
-    }
-
-    alert(`${itemName} sapling(s) removed from cart`);
-}
-
-        function getBasePrice(itemName) {
-            // This would typically fetch the base price from your data
-            // For simplicity, we'll return a default value
-            return 150; // You should replace this with actual price lookup
-        }
+    btn.classList.remove('btn-danger');
+    btn.classList.add('btn-success');
+    btn.textContent = 'Add to Cart';
+    btn.onclick = () => addToCart(itemName, itemPrice);
     
+    alert(`${itemName} removed from cart`);
+  } catch (err) {
+    console.error("Error removing from cart:", err);
+    alert('Failed to remove item from cart');
+  }
+}
         // Load saplings when page is fully loaded
         document.addEventListener("DOMContentLoaded", fetchSaplings);
     </script>
