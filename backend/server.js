@@ -28,12 +28,17 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: 'user' },
   createdAt: { type: Date, default: Date.now },
   cart: [{
-    _id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() }, // Add unique ID
+    _id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    unit: { type: String, enum: ['kg', 'g'], default: 'kg' }
+    unit: { type: String },
+    type: { type: String },
+    age: { type: String, required: false }, // Make optional for debugging
+    size: { type: String, required: false } // Make optional for debugging
   }]
+}, {
+  strict: false // Temporarily allow additional fields
 });
 
 // Admin Schema
@@ -207,37 +212,83 @@ app.get('/api/cart', async (req, res) => {
     res.status(401).json({ error: 'Token invalid' });
   }
 });
+
 app.post('/api/cart/add', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'No token' });
+  if (!token) return res.status(401).json({ error: 'No token provided' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const { name, price, quantity, unit } = req.body;
+    console.log('Received cart add request:', req.body); // Log incoming data
 
-    // Validate input
-    if (!name || !price || !quantity || !unit) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    const { name, price, quantity, unit, type } = req.body;
+
+    // Validate input more thoroughly
+    if (!name || typeof name !== 'string') {
+      return res.status(400).json({ error: 'Invalid product name' });
+    }
+    if (isNaN(price) || price <= 0) {
+      return res.status(400).json({ error: 'Invalid price' });
+    }
+    if (isNaN(quantity) || quantity <= 0) {
+      return res.status(400).json({ error: 'Invalid quantity' });
+    }
+    if (!['kg', 'g', 'packet', 'sapling', '250ml', '500ml', '1ltr'].includes(unit)) {
+      return res.status(400).json({ error: 'Invalid unit' });
     }
 
-    // Check if item already exists in cart
-    const existingItem = user.cart.find(item => item.name === name && item.unit === unit);
-    if (existingItem) {
-      existingItem.quantity += quantity; // Update quantity if exists
+    // Convert to proper types
+    const parsedPrice = parseFloat(price);
+    const parsedQuantity = unit === 'sapling' ? parseInt(quantity) : parseFloat(quantity);
+
+    // Check for existing item
+    const existingItemIndex = user.cart.findIndex(item => 
+      item.name === name && item.unit === unit && item.type === type
+    );
+
+    if (existingItemIndex >= 0) {
+      // Update existing item
+      user.cart[existingItemIndex].quantity += parsedQuantity;
     } else {
-      user.cart.push({ name, price, quantity, unit }); // Add new item
+      // Add new item
+      user.cart.push({
+        name,
+        price: parsedPrice,
+        quantity: parsedQuantity,
+        unit,
+        type
+      });
     }
 
-    await user.save();
-    res.json({ success: true, cart: user.cart });
+    // Save with error handling
+    try {
+      await user.save();
+      console.log('Cart updated successfully for user:', user._id);
+      return res.json({ 
+        success: true, 
+        cart: user.cart,
+        message: 'Item added to cart successfully'
+      });
+    } catch (saveError) {
+      console.error('Database save error:', saveError);
+      return res.status(500).json({ 
+        error: 'Database operation failed',
+        details: saveError.message
+      });
+    }
+
   } catch (err) {
-    res.status(500).json({ error: 'Failed to update cart' });
+    console.error('Cart add endpoint error:', err);
+    return res.status(500).json({ 
+      error: 'Failed to update cart',
+      details: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   }
 });
-
 app.put('/api/cart/update', async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'No token' });
@@ -273,6 +324,7 @@ app.delete('/api/cart/remove', async (req, res) => {
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     const { itemId } = req.body;
+
     user.cart = user.cart.filter(item => item._id.toString() !== itemId);
     await user.save();
 
