@@ -41,6 +41,8 @@ const userSchema = new mongoose.Schema({
   strict: false // Temporarily allow additional fields
 });
 
+console.log("MONGO_URI =", process.env.MONGO_URI);
+
 // Admin Schema
 const adminSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -313,23 +315,20 @@ app.put('/api/cart/update', async (req, res) => {
     res.status(500).json({ error: 'Failed to update cart' });
   }
 });
-
-app.delete('/api/cart/remove', async (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'No token' });
+app.delete('/api/cart/remove', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const { itemId } = req.body;
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ message: 'User not found' });
 
-    const { itemId } = req.body;
+      user.cart = user.cart.filter(item => item._id.toString() !== itemId);
+      await user.save();
 
-    user.cart = user.cart.filter(item => item._id.toString() !== itemId);
-    await user.save();
-
-    res.json({ success: true, cart: user.cart });
+      res.json({ message: 'Item removed successfully', cart: user.cart });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to remove item' });
+      console.error(err);
+      res.status(500).json({ message: 'Server error while removing item' });
   }
 });

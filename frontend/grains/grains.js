@@ -88,7 +88,7 @@ const token = localStorage.getItem('agroToken');
 
 if (!token) {
 alert('Please login to add items to cart');
-window.location.href = '/index.html'; // Redirect to login
+window.location.href = './index.html'; // Redirect to login
 return;
 }
 

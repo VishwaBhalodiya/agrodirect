@@ -2,7 +2,8 @@
     "name": "agrodirect-root",
     "version": "1.0.0",
     "scripts": {
-      "start": "concurrently \"node backend/server.js\" \"node adminpanel/server.js\" \"cd frontend/\\\"home page\\\" && python app.py\""
+"start": "concurrently \"node -r dotenv/config backend/server.js\" \"node adminpanel/server.js\" \"cd frontend/\\\"home page\\\" && python app.py\""
+
     },
     "devDependencies": {
       "concurrently": "^8.2.0"

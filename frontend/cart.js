@@ -392,28 +392,32 @@ function checkout() {
 
     window.location.href = '/checkout.html';
 }
+async function removeItem(itemId) {
+    const token = localStorage.getItem('agroToken');
+    if (!token) {
+        alert('Please login to update cart');
+        return;
+    }
 
-// Toast notification functions
-function showSuccessToast(message) {
-    Toastify({
-        text: message,
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        backgroundColor: "#28a745",
-        stopOnFocus: true
-    }).showToast();
-}
+    try {
+        const response = await fetch('http://localhost:5000/api/cart/remove', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ itemId })
+        });
 
-function showErrorToast(message) {
-    Toastify({
-        text: message,
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "right",
-        backgroundColor: "#dc3545",
-        stopOnFocus: true
-    }).showToast();
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to remove item from cart');
+        }
+
+        alert('Item removed from cart');
+        displayCart(); // Refresh cart UI
+    } catch (err) {
+        console.error("Error removing item:", err);
+        alert('Failed to remove item: ' + err.message);
+    }
 }

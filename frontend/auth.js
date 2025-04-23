@@ -129,3 +129,4 @@ function updateAuthUI() {
   document.addEventListener("DOMContentLoaded", function() {
     updateAuthUI();
   });
+  

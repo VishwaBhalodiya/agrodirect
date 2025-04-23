@@ -10,7 +10,6 @@ app.use(express.json());
 // API Keys (use environment variables in production)
 const WEATHER_API_KEY = "ee0c213194b30fa25d6bff0361b663d0";
 const GEMINI_API_KEY = "AIzaSyC3BnwejWRDl9mz09dlSAzfmTEIxScxvMo";
-const LOCATIONIQ_KEY = "pk.your_locationiq_key"; // Get from locationiq.com
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
@@ -35,10 +34,6 @@ async function getCoordinates(location) {
             url: (q) => `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=in`
         },
         {
-            name: "LocationIQ",
-            url: (q) => `https://us1.locationiq.com/v1/search?q=${encodeURIComponent(q)}&key=${LOCATIONIQ_KEY}&format=json&limit=1&countrycodes=in`
-        },
-        {
             name: "OpenWeatherMap",
             url: (q) => `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=1&appid=${WEATHER_API_KEY}`
         }
@@ -51,9 +46,9 @@ async function getCoordinates(location) {
                 if (response.data?.length > 0) {
                     const result = response.data[0];
                     return {
-                        lat: result.lat,
-                        lon: result.lon,
-                        name: result.display_name?.split(',')[0] || result.name,
+                        lat: result.lat || result.latitude,
+                        lon: result.lon || result.longitude,
+                        name: result.display_name?.split(',')[0] || result.name || query.split(',')[0],
                         source: service.name
                     };
                 }
