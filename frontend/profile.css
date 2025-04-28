@@ -1,0 +1,86 @@
+/* Profile Page Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-header h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+}
+
+.profile-header i {
+    margin-right: 10px;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.profile-info {
+    margin-bottom: 30px;
+}
+
+.info-group {
+    margin-bottom: 20px;
+}
+
+.info-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.info-group label i {
+    width: 20px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.info-value {
+    padding: 12px 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-edit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    transition: all 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #2980b9;
+}

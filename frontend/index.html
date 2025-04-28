@@ -6,6 +6,8 @@
     <title>AgroDirect - Farm Management Platform</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LfTHgwrAAAAALxjPAhtfNg197gC0jMR5y3lc2LA"></script> -->
+  <!-- <script src="recaptcha.js"></script> -->
 </head>
 <body>
     <div class="container">
@@ -41,10 +43,11 @@
                         </div>
                         <div id="loginPasswordError" class="invalid-feedback"></div>
                     </div>
-                    <div class="remember-forgot">
+                    <!-- <div class="remember-forgot">
                         <label><input type="checkbox"> Remember me</label>
                         <span class="toggle-link" onclick="showRecover()">Forgot Password?</span>
-                    </div>
+                    </div> -->
+                    
                     <button class="btn-custom" onclick="login(event)">
                         <i class="fas fa-sign-in-alt"></i> Login
                     </button>
@@ -70,6 +73,7 @@
                     <div class="password-requirements">
                         <i class="fas fa-info-circle"></i> Password must be at least 6 characters and include a special character (!@#$%^&*).
                     </div>
+                    <input type="hidden" id="recaptchaToken" name="recaptchaToken">
                     <button class="btn-custom" onclick="signup(event)">
                         <i class="fas fa-user-plus"></i> Create Account
                     </button>

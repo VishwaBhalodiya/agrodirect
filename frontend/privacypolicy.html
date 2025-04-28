@@ -16,9 +16,9 @@
                 <span class="hamburger"></span>
             </button>
             <ul class="nav-links">
-                <li><a href="/home page/home.html">Home</a></li>
-                <li><a href="/privacypolicy.html">Privacy Policy</a></li>
-                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="home page/home.html">Home</a></li>
+                <li><a href="privacypolicy.html">Privacy Policy</a></li>
+                <li><a href="contactus.html">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -107,13 +107,188 @@
         }
         
         /* Footer */
-        footer {
-            background-color: #2c7a3d;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 40px;
-        }
+        .footer {
+  background-color: #fff;
+  color: #1e3c14;
+  padding: 40px 0 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+/* Company Section */
+.footer-company h2 {
+  font-size: 28px;
+  margin: 0 0 15px;
+  font-weight: 600;
+}
+
+.footer-company p {
+  margin-bottom: 20px;
+  line-height: 1.5;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(30, 60, 20, 0.1);
+  color: #1e3c14;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.social-icons a:hover {
+  background: #4a8b2c;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* Section Headers */
+.footer h3 {
+  color: #1e3c14;
+  font-size: 18px;
+  margin: 0 0 20px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer h3:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background: #4a8b2c;
+}
+
+/* Quick Links */
+.footer-links ul,
+.footer-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li,
+.footer-contact li {
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.footer-links a {
+  color: #1e3c14;
+  opacity: 0.8;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: block;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+  padding-left: 5px;
+}
+
+/* Product Tags */
+.product-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-tags a {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(30, 60, 20, 0.1);
+  color: #1e3c14;
+  border-radius: 30px;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.product-tags a:hover {
+  background: #4a8b2c;
+  color: #fff;
+}
+
+/* Contact Info */
+.footer-contact {
+  margin-bottom: 20px;
+}
+
+.footer-contact h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.footer-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-contact li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.footer-contact .icon-container {
+  width: 20px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-contact i {
+  color: #4a8b2c;
+  font-size: 16px;
+}
+
+.footer-contact .text-container {
+  flex: 1;
+  line-height: 1.4;
+  color: #1e3c14;
+}
+
+/* Copyright Section */
+.copyright {
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 30px;
+  border-top: 1px solid rgba(30, 60, 20, 0.1);
+  font-size: 14px;
+  opacity: 0.7;
+  color: #1e3c14;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
         </style>
     <section id="privacy" class="policy-section">
         <h1>Privacy Policy</h1>
@@ -186,8 +361,86 @@
         </ul>
     </section>
     
-    <footer>
-        <p>&copy; 2025 AgroDirect | All Rights Reserved</p>
+    <footer class="footer">
+        <div class="container">
+            <!-- Main Footer Content -->
+            <div class="footer-grid">
+                <!-- Company Info -->
+                <div class="footer-company">
+                    <h2>AgroDirect</h2>
+                    <p>Connecting farmers and consumers through sustainable, organic produce. We believe in quality, freshness, and environmental responsibility.</p>
+                    
+                </div>
+    
+                <!-- Quick Links -->
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="shopnow.html">➤Shop Products</a></li>
+                        <li><a href="aboutus.html">➤About Us</a></li>
+                        <li><a href="privacypolicy.html">➤Privacy Policy</a></li>
+                      
+                    </ul>
+                </div>
+    
+                <!-- Product Categories -->
+                <div class="footer-products">
+                    <h3>Product Categories</h3>
+                    <div class="product-tags">
+                        <a href="seed/seeds.html">Organic Seeds</a>
+                        <a href="fruit/fruits.html">Fresh Fruits</a>
+                        <a href="vegetables/vegetable.html">Vegetables</a>
+                        <a href="oil/oilextracts.html">Organic Oils</a>
+                        <a href="grains/grains.html">Grains</a>
+                    </div>
+                </div>
+    
+                <!-- Contact Info -->
+                <div class="footer-contact"> 
+                    <h3>Contact Us</h3> 
+                    <ul> 
+                        <li>
+                            <div class="icon-container">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="text-container">
+                                PanjiDevi Farms Lalpur, Jamnagar, Gujarat
+                            </div>
+                        </li> 
+                        <li>
+                            <div class="icon-container">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="text-container">
+                                +91 87996 604004
+                            </div>
+                        </li> 
+                        <li>
+                            <div class="icon-container">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="text-container">
+                                info@agrodirect.com
+                            </div>
+                        </li> 
+                        <li>
+                            <div class="icon-container">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="text-container">
+                                Mon - Sat: 8:00 AM - 6:00 PM
+                            </div>
+                        </li> 
+                    </ul> 
+                </div>
+            </div>
+        </div>
+    
+        <!-- Copyright Section -->
+        <div class="copyright">
+            <p>© 2025 Agro. All rights reserved.</p>
+        </div>
     </footer>
+
 </body>
 </html>

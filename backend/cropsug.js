@@ -9,7 +9,8 @@ app.use(express.json());
 
 // API Keys (use environment variables in production)
 const WEATHER_API_KEY = "ee0c213194b30fa25d6bff0361b663d0";
-const GEMINI_API_KEY = "AIzaSyC3BnwejWRDl9mz09dlSAzfmTEIxScxvMo";
+const GEMINI_API_KEY = "AIzaSyAYi8ba288Z2Vs9xqZfpGK-wahT00RdOk4";
+const LOCATIONIQ_KEY = "pk.your_locationiq_key"; // Get from locationiq.com
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 

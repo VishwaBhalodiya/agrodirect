@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -7,6 +8,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./db');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+
 
 // Initialize Express app
 const app = express();
@@ -167,6 +171,76 @@ app.get('/api/protected', async (req, res) => {
     res.status(401).json({ error: 'Not authorized, token failed' });
   }
 });
+// Get user profile
+app.get('/api/user/profile', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const Model = decoded.role === 'admin' ? Admin : User;
+    const user = await Model.findById(decoded.id).select('-password');
+
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    res.json(user);
+  } catch (error) {
+    res.status(401).json({ error: 'Not authorized' });
+  }
+});
+
+// Update user profile
+app.put('/api/user/profile', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token provided' });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const Model = decoded.role === 'admin' ? Admin : User;
+    
+    const user = await Model.findByIdAndUpdate(
+      decoded.id,
+      { $set: req.body },
+      { new: true }
+    ).select('-password');
+
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+app.post('/api/user/change-password', async (req, res) => {
+  try {
+      const token = req.headers.authorization?.split(' ')[1];
+      if (!token) return res.status(401).json({ error: 'No token provided' });
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const Model = decoded.role === 'admin' ? Admin : User;
+      const user = await Model.findById(decoded.id);
+
+      if (!user) return res.status(404).json({ error: 'User not found' });
+
+      // Verify current password
+      const isMatch = await bcrypt.compare(req.body.currentPassword, user.password);
+      if (!isMatch) {
+          return res.status(401).json({ error: 'Current password is incorrect' });
+      }
+
+      // Hash new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+
+      // Update password
+      user.password = hashedPassword;
+      await user.save();
+
+      res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;
@@ -315,20 +389,112 @@ app.put('/api/cart/update', async (req, res) => {
     res.status(500).json({ error: 'Failed to update cart' });
   }
 });
-app.delete('/api/cart/remove', authenticateToken, async (req, res) => {
-  const userId = req.user.id;
-  const { itemId } = req.body;
+// app.delete('/api/cart/remove', authenticateToken, async (req, res) => {
+//   const userId = req.user.id;
+//   const { itemId } = req.body;
+
+//  try {
+//       const user = await User.findById(userId);
+//       if (!user) return res.status(404).json({ message: 'User not found' });
+
+//       user.cart = user.cart.filter(item => item._id.toString() !== itemId);
+//       await user.save();
+
+  //    res.json({ message: 'Item removed successfully', cart: user.cart });
+ // } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ message: 'Server error while removing item' });
+//   }
+// });
+// Configure email transporter (add to your .env)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Generate reset token
+app.post('/api/forgot-password', async (req, res) => {
+  const { email } = req.body;
 
   try {
-      const user = await User.findById(userId);
-      if (!user) return res.status(404).json({ message: 'User not found' });
+    // Check if user exists (search both User and Admin models)
+    let user = await User.findOne({ email });
+    let model = 'User';
+    
+    if (!user) {
+      user = await Admin.findOne({ email });
+      model = 'Admin';
+      if (!user) {
+        return res.status(404).json({ error: 'Email not found' });
+      }
+    }
 
-      user.cart = user.cart.filter(item => item._id.toString() !== itemId);
-      await user.save();
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
 
-      res.json({ message: 'Item removed successfully', cart: user.cart });
-  } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Server error while removing item' });
+    // Save token to user
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = resetTokenExpiry;
+    await user.save();
+
+    // Create reset URL
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password.html?token=${resetToken}&model=${model}`;
+
+    // Send email
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_FROM,
+      subject: 'Password Reset Request',
+      html: `
+        <p>You requested a password reset for your FarmConnect account.</p>
+        <p>Click this link to reset your password:</p>
+        <a href="${resetUrl}">${resetUrl}</a>
+        <p>This link will expire in 1 hour.</p>
+        <p>If you didn't request this, please ignore this email.</p>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: 'Reset link sent to email' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Error processing request' });
+  }
+});
+
+// Reset password
+app.post('/api/reset-password', async (req, res) => {
+  const { token, model, newPassword } = req.body;
+
+  try {
+    // Find user by token
+    let Model = model === 'Admin' ? Admin : User;
+    const user = await Model.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid or expired token' });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update password and clear token
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
